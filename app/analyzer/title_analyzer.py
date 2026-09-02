@@ -12,6 +12,17 @@ from app.analyzer.subheading_analyzer import check_keyphrase_in_subheadings
 from app.analyzer.title_length_analyzer import check_seo_title_length
 from app.analyzer.meta_description_analyzer import check_meta_description_length
 from app.analyzer.image_analyzer import check_image_alt_attributes
+from app.analyzer.internal_link_analyzer import check_internal_links
+from app.analyzer.external_link_analyzer import check_external_links
+from app.analyzer.content_length_analyzer import check_content_length
+from app.analyzer.keyphrase_distribution_analyzer import (
+    check_keyphrase_distribution,
+)
+from app.analyzer.sentence_length_analyzer import check_sentence_length
+from app.analyzer.paragraph_length_analyzer import check_paragraph_length
+from app.analyzer.subheading_distribution_analyzer import (
+    check_subheading_distribution,
+)
 
 
 def check_keyphrase_in_title(title: str, focus_keyphrase: str) -> AnalysisResultItem:
@@ -114,7 +125,18 @@ def run_seo_analysis(data: AnalyzeRequest) -> AnalyzeResponse:
     image_alt_result = check_image_alt_attributes(
         data.content, data.focus_keyphrase
     )
+    internal_link_result = check_internal_links(data.content)
+    external_link_result = check_external_links(data.content)
     word_count = count_words(data.content)
+    content_length_result = check_content_length(data.content, word_count=word_count)
+    keyphrase_distribution_result = check_keyphrase_distribution(
+        data.content, data.focus_keyphrase
+    )
+    sentence_length_result = check_sentence_length(data.content)
+    paragraph_length_result = check_paragraph_length(data.content)
+    subheading_distribution_result = check_subheading_distribution(
+        data.content, word_count=word_count
+    )
 
     return AnalyzeResponse(
         seo=SEOResults(
@@ -128,6 +150,13 @@ def run_seo_analysis(data: AnalyzeRequest) -> AnalyzeResponse:
                 title_length_result,
                 meta_length_result,
                 image_alt_result,
+                internal_link_result,
+                external_link_result,
+                content_length_result,
+                keyphrase_distribution_result,
+                sentence_length_result,
+                paragraph_length_result,
+                subheading_distribution_result,
             ]
         ),
         content=ContentResult(word_count=word_count),
