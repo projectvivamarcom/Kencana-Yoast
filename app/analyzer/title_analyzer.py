@@ -12,7 +12,6 @@ from app.analyzer.subheading_analyzer import check_keyphrase_in_subheadings
 from app.analyzer.title_length_analyzer import check_seo_title_length
 from app.analyzer.meta_description_analyzer import check_meta_description_length
 from app.analyzer.image_analyzer import check_image_alt_attributes
-from app.analyzer.internal_link_analyzer import check_internal_links
 
 
 def check_keyphrase_in_title(title: str, focus_keyphrase: str) -> AnalysisResultItem:
@@ -115,7 +114,6 @@ def run_seo_analysis(data: AnalyzeRequest) -> AnalyzeResponse:
     image_alt_result = check_image_alt_attributes(
         data.content, data.focus_keyphrase
     )
-    internal_link_result = check_internal_links(data.content)
     word_count = count_words(data.content)
 
     return AnalyzeResponse(
@@ -130,7 +128,6 @@ def run_seo_analysis(data: AnalyzeRequest) -> AnalyzeResponse:
                 title_length_result,
                 meta_length_result,
                 image_alt_result,
-                internal_link_result,
             ]
         ),
         content=ContentResult(word_count=word_count),
