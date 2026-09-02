@@ -1,3 +1,4 @@
+# pyrefly: ignore [missing-import]
 from fastapi import FastAPI
 from app.schemas import AnalyzeRequest, AnalyzeResponse
 from app.analyzer.title_analyzer import run_seo_analysis
