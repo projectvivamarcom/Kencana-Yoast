@@ -210,12 +210,12 @@ const isPostsActive = computed(() => {
     <!-- Sidebar Footer / Version Info -->
     <div class="p-3 bg-[#131619] border-t border-[#2c3338] text-[11px] text-gray-400">
       <div class="flex items-center justify-between">
-        <span>Kencana CMS</span>
+        <span class="font-medium text-gray-200">Kencana SEO</span>
         <span class="text-[#72aee6]">v2.4.1</span>
       </div>
       <div class="mt-1.5 text-[10px] text-gray-400 flex items-center space-x-1.5">
         <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-        <span>Kencana SEO Engine</span>
+        <span>SEO Engine</span>
         <span class="text-emerald-400 font-medium">● Active</span>
       </div>
     </div>

@@ -81,15 +81,15 @@ const seoStats = computed(() => {
     <div class="flex items-center justify-between pb-1 border-b border-gray-200">
       <h1 class="text-2xl font-normal text-wp-text">Dashboard</h1>
       <div class="text-xs text-gray-500 font-mono">
-        Kencana CMS 2.4.1 &bull; FastAPI Engine
+        Kencana SEO 2.4.1 &bull; FastAPI Engine
       </div>
     </div>
 
-    <!-- Welcome Panel (WordPress Style) -->
+    <!-- Welcome Panel -->
     <div class="bg-white border border-wp-border rounded shadow-xs p-5">
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-gray-100">
         <div>
-          <h2 class="text-lg font-bold text-gray-900">Welcome to Kencana Admin CMS!</h2>
+          <h2 class="text-lg font-bold text-gray-900">Welcome to Kencana Admin!</h2>
           <p class="text-xs text-gray-500 mt-0.5">
             Kelola konten artikel properti &amp; konstruksi baja ringan dengan analisis SEO real-time Kencana SEO &amp; FastAPI.
           </p>
@@ -276,7 +276,7 @@ const seoStats = computed(() => {
           </div>
 
           <div class="pt-3 border-t border-gray-100 text-gray-500 text-[11px]">
-            Running Kencana Properti CMS with TailwindCSS &amp; PrimeVue UI engine.
+            Running Kencana Properti Platform with TailwindCSS &amp; PrimeVue UI engine.
           </div>
         </div>
       </div>
