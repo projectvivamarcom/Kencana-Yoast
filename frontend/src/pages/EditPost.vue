@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { CheckCircle2, AlertCircle, Sparkles } from 'lucide-vue-next'
+import { CheckCircle2, AlertCircle } from 'lucide-vue-next'
 import { usePostStore } from '../stores/postStore'
 import ContentEditor from '../components/editor/ContentEditor.vue'
 import PublishBox from '../components/editor/PublishBox.vue'
@@ -171,7 +171,7 @@ const handleDelete = () => {
 
     <!-- Main 2-Column WordPress Layout -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
-      <!-- Left Column: Title, Editor, SEO Analyzer -->
+      <!-- Left Column: Title, Editor, Kencana SEO Analysis -->
       <div class="lg:col-span-8 space-y-4">
         <ContentEditor 
           v-model:title="title"
@@ -179,7 +179,7 @@ const handleDelete = () => {
           v-model:content="content"
         />
 
-        <!-- SEO Analyzer Panel -->
+        <!-- Kencana SEO Analysis Panel -->
         <SeoAnalyzerPanel 
           :title="seoTitle || title"
           :slug="slug"

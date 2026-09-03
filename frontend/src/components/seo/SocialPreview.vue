@@ -28,7 +28,7 @@ const displayImage = computed(() => {
     <div class="flex items-center justify-between pb-3 border-b border-gray-100 mb-4">
       <div class="flex items-center space-x-2">
         <Share2 class="w-4 h-4 text-blue-600" />
-        <span class="text-xs font-semibold text-gray-700 tracking-wider uppercase">Social Media Preview</span>
+        <span class="text-xs font-semibold text-gray-700 tracking-wider uppercase">Social Preview</span>
       </div>
       <span class="text-[10px] bg-indigo-100 text-indigo-700 font-medium px-2 py-0.5 rounded">
         Facebook &amp; LinkedIn

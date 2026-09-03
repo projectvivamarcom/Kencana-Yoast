@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { Plus, Sparkles, CheckCircle2 } from 'lucide-vue-next'
+import { Plus, BarChart2, CheckCircle2 } from 'lucide-vue-next'
 import { usePostStore } from '../stores/postStore'
 import PostFilters from '../components/posts/PostFilters.vue'
 import PostTable from '../components/posts/PostTable.vue'
@@ -38,9 +38,9 @@ const handleSaveQuickEdit = (updated: QuickEditData) => {
       </div>
 
       <!-- Quick SEO Summary Badge -->
-      <div class="hidden sm:flex items-center space-x-2 text-xs text-gray-500 bg-white px-3 py-1.5 rounded border border-gray-200 shadow-xs">
-        <Sparkles class="w-3.5 h-3.5 text-yellow-500" />
-        <span>Kencana SEO Analyzer Active</span>
+      <div class="hidden sm:flex items-center space-x-2 text-xs text-gray-600 bg-white px-3 py-1.5 rounded border border-gray-200 shadow-xs">
+        <BarChart2 class="w-3.5 h-3.5 text-blue-600" />
+        <span class="font-medium">Kencana SEO Active</span>
       </div>
     </div>
 

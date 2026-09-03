@@ -3,17 +3,17 @@ import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { 
   FileText, 
-  Sparkles, 
+  BarChart2, 
   FolderTree, 
   Tag as TagIcon, 
   CheckCircle2, 
   AlertTriangle, 
   XCircle, 
-  ArrowRight,
-  Plus,
-  ExternalLink,
-  ShieldCheck,
-  Server
+  ArrowRight, 
+  Plus, 
+  ExternalLink, 
+  ShieldCheck, 
+  Server 
 } from 'lucide-vue-next'
 import { usePostStore } from '../stores/postStore'
 import ScoreBadge from '../components/seo/ScoreBadge.vue'
@@ -91,7 +91,7 @@ const seoStats = computed(() => {
         <div>
           <h2 class="text-lg font-bold text-gray-900">Welcome to Kencana Admin CMS!</h2>
           <p class="text-xs text-gray-500 mt-0.5">
-            Kelola konten artikel properti &amp; konstruksi baja ringan dengan analisis SEO real-time berbasis Yoast &amp; FastAPI.
+            Kelola konten artikel properti &amp; konstruksi baja ringan dengan analisis SEO real-time Kencana SEO &amp; FastAPI.
           </p>
         </div>
         <router-link
@@ -146,8 +146,8 @@ const seoStats = computed(() => {
           <ul class="space-y-1.5">
             <li>
               <router-link to="/seo-audit" class="text-wp-blue hover:underline flex items-center space-x-1">
-                <Sparkles class="w-3 h-3 text-yellow-500" />
-                <span>Full Site SEO Audit</span>
+                <BarChart2 class="w-3 h-3 text-blue-500" />
+                <span>Kencana SEO Audit</span>
               </router-link>
             </li>
             <li>
@@ -167,7 +167,7 @@ const seoStats = computed(() => {
       <div class="wp-postbox">
         <div class="wp-postbox-header flex items-center justify-between">
           <div class="flex items-center space-x-2">
-            <Sparkles class="w-4 h-4 text-yellow-500" />
+            <BarChart2 class="w-4 h-4 text-[#2271b1]" />
             <span>Kencana SEO Health Overview</span>
           </div>
           <span class="text-xs font-mono bg-blue-50 text-blue-700 px-2 py-0.5 rounded">
@@ -270,7 +270,7 @@ const seoStats = computed(() => {
               </div>
               <div class="flex items-center space-x-2">
                 <ShieldCheck class="w-4 h-4 text-emerald-600" />
-                <span class="text-gray-700 font-medium">Yoast 2026 Compatible</span>
+                <span class="text-gray-700 font-medium">Kencana SEO Engine</span>
               </div>
             </div>
           </div>

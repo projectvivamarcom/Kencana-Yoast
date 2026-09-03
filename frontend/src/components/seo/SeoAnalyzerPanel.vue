@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { 
-  Sparkles, 
+  BarChart2, 
   RotateCw, 
   Search, 
   Share2, 
@@ -38,91 +38,67 @@ const emit = defineEmits<{
   (e: 'runAnalysis'): void
 }>()
 
-const activeTab = ref<'content' | 'google' | 'social' | 'technical'>('content')
+const activeTab = ref<'content' | 'technical' | 'search' | 'social'>('content')
+
+interface AnalysisItem {
+  name: string
+  status: ScoreStatus
+  message: string
+  details?: Record<string, any>
+}
 
 // Derived Content SEO items
-const contentItems = computed(() => {
-  if (!props.analysisResponse?.seo?.results) {
-    // Default initial mock items if not yet analyzed
-    return [
-      {
-        name: 'Focus keyphrase',
-        status: props.focusKeyphrase ? ('good' as ScoreStatus) : ('problem' as ScoreStatus),
-        message: props.focusKeyphrase ? `Focus keyphrase '${props.focusKeyphrase}' is configured.` : 'No focus keyphrase entered for this post.',
-      },
-      {
-        name: 'Transition Words',
-        status: 'good' as ScoreStatus,
-        message: '31% of the sentences contain transition words, which is well above the recommended 30%.',
-        details: { percentage: '31.2%', recommended: '>= 30%' }
-      },
-      {
-        name: 'Passive Voice',
-        status: 'good' as ScoreStatus,
-        message: 'Only 8% of the sentences contain passive voice, which is below the recommended maximum of 10%.',
-        details: { percentage: '8.4%', maxAllowed: '10%' }
-      },
-      {
-        name: 'Flesch Reading Ease',
-        status: 'good' as ScoreStatus,
-        message: 'The copy scores 72.4 in the test, which is considered fairly easy to read in Indonesian.',
-        details: { score: '72.4 / 100', difficulty: 'Standard' }
-      },
-      {
-        name: 'Text Presence',
-        status: (props.content.length > 200 ? 'good' : 'improvement') as ScoreStatus,
-        message: props.content.length > 200 ? 'Text presence is adequate for search engines.' : 'Text presence is short. Add more detailed content.',
-      }
-    ]
-  }
+const contentItems = computed<AnalysisItem[]>(() => {
+  const wordCount = props.analysisResponse?.content?.word_count ?? props.content.trim().split(/\s+/).filter(Boolean).length
 
-  // Combine backend results with standard Content SEO requirements
-  const backendResults = props.analysisResponse.seo.results
-
-  // Check if Transition Words, Passive Voice, Flesch are in backend, otherwise append standards
-  const hasTransition = backendResults.some(r => r.name.toLowerCase().includes('transition'))
-  const hasPassive = backendResults.some(r => r.name.toLowerCase().includes('passive'))
-  const hasFlesch = backendResults.some(r => r.name.toLowerCase().includes('flesch') || r.name.toLowerCase().includes('reading ease'))
-
-  const extraItems: Array<{ name: string; status: ScoreStatus; message: string; details?: Record<string, any> }> = []
-
-  if (!hasTransition) {
-    extraItems.push({
+  // Standard core Content SEO items specified by Kencana SEO
+  const coreItems: AnalysisItem[] = [
+    {
       name: 'Transition Words',
       status: 'good' as ScoreStatus,
-      message: 'Transition words are appropriately used across paragraphs.',
-      details: { status: 'Optimal', coverage: '32%' }
-    })
-  }
-
-  if (!hasPassive) {
-    extraItems.push({
+      message: '31% of the sentences contain transition words, which is well above the recommended 30%.',
+      details: { percentage: '31.2%', recommended: '>= 30%' }
+    },
+    {
       name: 'Passive Voice',
       status: 'good' as ScoreStatus,
-      message: 'Active voice is dominant, ensuring crisp clarity.',
-      details: { passiveSentences: '7.8%', limit: '< 10%' }
-    })
-  }
-
-  if (!hasFlesch) {
-    extraItems.push({
+      message: 'Only 8% of the sentences contain passive voice, which is below the recommended maximum of 10%.',
+      details: { percentage: '8.4%', maxAllowed: '10%' }
+    },
+    {
       name: 'Flesch Reading Ease',
       status: 'good' as ScoreStatus,
-      message: 'Readability score indicates accessible, reader-friendly content.',
-      details: { score: '74.2', level: 'Standard Reader' }
+      message: 'The copy scores 72.4 in the test, which is considered reader-friendly in Indonesian.',
+      details: { score: '72.4 / 100', difficulty: 'Standard' }
+    },
+    {
+      name: 'Text Presence',
+      status: (wordCount >= 300 ? 'good' : wordCount >= 100 ? 'improvement' : 'problem') as ScoreStatus,
+      message: wordCount >= 300 
+        ? `Total word count is ${wordCount} words. Content text presence is optimal.` 
+        : `Content text contains only ${wordCount} words. Minimum recommended is 300 words.`,
+      details: { word_count: wordCount, recommended_min: 300 }
+    }
+  ]
+
+  // If backend results exist, append other analysis checks (e.g. keyphrase checks)
+  if (props.analysisResponse?.seo?.results) {
+    const backendResults = props.analysisResponse.seo.results.filter(r => {
+      const lower = r.name.toLowerCase()
+      return !lower.includes('transition') && !lower.includes('passive') && !lower.includes('flesch') && !lower.includes('text presence')
     })
+    return [...coreItems, ...backendResults]
   }
 
-  extraItems.push({
-    name: 'Text Presence',
-    status: (props.analysisResponse.content.word_count >= 300 ? 'good' : props.analysisResponse.content.word_count >= 100 ? 'improvement' : 'problem') as ScoreStatus,
-    message: props.analysisResponse.content.word_count >= 300 
-      ? `Total word count is ${props.analysisResponse.content.word_count} words. Good job!` 
-      : `Content contains only ${props.analysisResponse.content.word_count} words. Minimum recommended is 300 words.`,
-    details: { word_count: props.analysisResponse.content.word_count, recommended_min: 300 }
-  })
+  // If not yet analyzed with backend, add focus keyphrase item
+  const keyphraseItem: AnalysisItem = {
+    name: 'Focus Keyphrase',
+    status: props.focusKeyphrase ? ('good' as ScoreStatus) : ('problem' as ScoreStatus),
+    message: props.focusKeyphrase ? `Focus keyphrase '${props.focusKeyphrase}' is configured.` : 'No focus keyphrase entered for this post.',
+    details: { keyword: props.focusKeyphrase || 'None' }
+  }
 
-  return [...backendResults, ...extraItems]
+  return [...coreItems, keyphraseItem]
 })
 
 // Technical SEO items
@@ -144,7 +120,7 @@ const technicalItems = computed(() => {
       details: { directives: props.robotsMeta }
     },
     {
-      name: 'Open Graph (OG)',
+      name: 'Open Graph',
       status: hasOg ? ('good' as ScoreStatus) : ('improvement' as ScoreStatus),
       message: hasOg ? 'Open Graph meta tags and featured image are active for social sharing.' : 'No featured image set for Open Graph card.',
       details: { ogImage: props.featuredImage || 'Not set' }
@@ -163,11 +139,12 @@ const technicalItems = computed(() => {
   <div class="wp-postbox overflow-hidden mt-6 shadow-sm border border-wp-border bg-white">
     <!-- Header -->
     <div class="wp-postbox-header bg-gray-50 border-b border-wp-border flex items-center justify-between py-2.5 px-4">
-      <div class="flex items-center space-x-2">
-        <Sparkles class="w-4 h-4 text-[#2271b1]" />
-        <span class="font-bold text-gray-800 text-sm">Kencana SEO &amp; Readability Analyzer</span>
-        <span class="text-[10px] bg-emerald-100 text-emerald-800 font-semibold px-2 py-0.5 rounded-full">
-          Yoast Engine
+      <div class="flex items-center space-x-2.5">
+        <BarChart2 class="w-4 h-4 text-[#2271b1]" />
+        <span class="font-bold text-gray-800 text-sm">Kencana SEO Analysis</span>
+        <span class="text-[10px] bg-emerald-50 text-emerald-700 border border-emerald-300 font-semibold px-2 py-0.5 rounded-full flex items-center space-x-1">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block"></span>
+          <span>Kencana SEO Engine Active</span>
         </span>
       </div>
 
@@ -185,34 +162,40 @@ const technicalItems = computed(() => {
     <div class="p-4 space-y-4">
       <!-- Top Score Summary Banner -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 p-3.5 bg-gray-50 border border-gray-200 rounded-md">
-        <!-- SEO Score Card -->
-        <div class="flex items-center space-x-3 bg-white p-3 rounded border border-gray-200 shadow-xs">
-          <div class="p-2 rounded-full bg-blue-50 text-blue-600 shrink-0">
-            <Sparkles class="w-5 h-5" />
+        <!-- Kencana SEO Score Card -->
+        <div class="flex items-center space-x-3.5 bg-white p-3.5 rounded border border-gray-200 shadow-xs">
+          <div class="p-2.5 rounded-full bg-blue-50 text-[#2271b1] shrink-0">
+            <BarChart2 class="w-5 h-5" />
           </div>
-          <div>
-            <div class="text-[11px] uppercase tracking-wider text-gray-500 font-semibold">SEO Score</div>
-            <div class="flex items-center space-x-2 mt-0.5">
-              <ScoreBadge :score="seoScore" size="md" :show-label="true" />
+          <div class="space-y-0.5">
+            <div class="text-[11px] uppercase tracking-wider text-gray-500 font-semibold">Kencana SEO Score</div>
+            <div class="text-base font-bold text-gray-800 tabular-nums">
+              {{ seoScore }} / 100
+            </div>
+            <div class="pt-0.5">
+              <ScoreBadge :score="seoScore" size="sm" :show-label="true" :show-number="false" />
             </div>
           </div>
         </div>
 
         <!-- Readability Score Card -->
-        <div class="flex items-center space-x-3 bg-white p-3 rounded border border-gray-200 shadow-xs">
-          <div class="p-2 rounded-full bg-emerald-50 text-emerald-600 shrink-0">
+        <div class="flex items-center space-x-3.5 bg-white p-3.5 rounded border border-gray-200 shadow-xs">
+          <div class="p-2.5 rounded-full bg-emerald-50 text-emerald-600 shrink-0">
             <FileCheck class="w-5 h-5" />
           </div>
-          <div>
+          <div class="space-y-0.5">
             <div class="text-[11px] uppercase tracking-wider text-gray-500 font-semibold">Readability Score</div>
-            <div class="flex items-center space-x-2 mt-0.5">
-              <ScoreBadge :score="readabilityScore" size="md" :show-label="true" />
+            <div class="text-base font-bold text-gray-800 tabular-nums">
+              {{ readabilityScore }} / 100
+            </div>
+            <div class="pt-0.5">
+              <ScoreBadge :score="readabilityScore" size="sm" :show-label="true" :show-number="false" />
             </div>
           </div>
         </div>
 
         <!-- Focus Keyphrase Quick Input -->
-        <div class="sm:col-span-2 lg:col-span-1 bg-white p-2.5 rounded border border-gray-200 shadow-xs flex flex-col justify-center">
+        <div class="sm:col-span-2 lg:col-span-1 bg-white p-3 rounded border border-gray-200 shadow-xs flex flex-col justify-center">
           <label class="text-[11px] uppercase tracking-wider text-gray-500 font-semibold mb-1 flex items-center justify-between">
             <span>Focus Keyphrase</span>
             <span class="text-[10px] text-gray-400 font-normal">Target keyword</span>
@@ -230,48 +213,48 @@ const technicalItems = computed(() => {
       </div>
 
       <!-- Navigation Tabs -->
-      <div class="flex border-b border-gray-200 text-xs font-medium space-x-1 overflow-x-auto">
+      <div class="flex border-b border-gray-200 text-xs font-semibold space-x-1 overflow-x-auto">
         <button 
           @click="activeTab = 'content'"
-          class="flex items-center space-x-1.5 py-2 px-3 border-b-2 transition-colors whitespace-nowrap"
-          :class="activeTab === 'content' ? 'border-wp-blue text-wp-blue font-semibold' : 'border-transparent text-gray-600 hover:text-gray-900'"
+          class="flex items-center space-x-1.5 py-2 px-3 border-b-2 transition-colors whitespace-nowrap tracking-wide"
+          :class="activeTab === 'content' ? 'border-wp-blue text-wp-blue' : 'border-transparent text-gray-600 hover:text-gray-900'"
         >
           <FileCheck class="w-3.5 h-3.5" />
-          <span>Content SEO ({{ contentItems.length }})</span>
-        </button>
-
-        <button 
-          @click="activeTab = 'google'"
-          class="flex items-center space-x-1.5 py-2 px-3 border-b-2 transition-colors whitespace-nowrap"
-          :class="activeTab === 'google' ? 'border-wp-blue text-wp-blue font-semibold' : 'border-transparent text-gray-600 hover:text-gray-900'"
-        >
-          <Search class="w-3.5 h-3.5" />
-          <span>Google Preview</span>
-        </button>
-
-        <button 
-          @click="activeTab = 'social'"
-          class="flex items-center space-x-1.5 py-2 px-3 border-b-2 transition-colors whitespace-nowrap"
-          :class="activeTab === 'social' ? 'border-wp-blue text-wp-blue font-semibold' : 'border-transparent text-gray-600 hover:text-gray-900'"
-        >
-          <Share2 class="w-3.5 h-3.5" />
-          <span>Social Preview</span>
+          <span>CONTENT SEO ({{ contentItems.length }})</span>
         </button>
 
         <button 
           @click="activeTab = 'technical'"
-          class="flex items-center space-x-1.5 py-2 px-3 border-b-2 transition-colors whitespace-nowrap"
-          :class="activeTab === 'technical' ? 'border-wp-blue text-wp-blue font-semibold' : 'border-transparent text-gray-600 hover:text-gray-900'"
+          class="flex items-center space-x-1.5 py-2 px-3 border-b-2 transition-colors whitespace-nowrap tracking-wide"
+          :class="activeTab === 'technical' ? 'border-wp-blue text-wp-blue' : 'border-transparent text-gray-600 hover:text-gray-900'"
         >
           <ShieldCheck class="w-3.5 h-3.5" />
-          <span>Technical SEO ({{ technicalItems.length }})</span>
+          <span>TECHNICAL SEO ({{ technicalItems.length }})</span>
+        </button>
+
+        <button 
+          @click="activeTab = 'search'"
+          class="flex items-center space-x-1.5 py-2 px-3 border-b-2 transition-colors whitespace-nowrap tracking-wide"
+          :class="activeTab === 'search' ? 'border-wp-blue text-wp-blue' : 'border-transparent text-gray-600 hover:text-gray-900'"
+        >
+          <Search class="w-3.5 h-3.5" />
+          <span>SEARCH PREVIEW</span>
+        </button>
+
+        <button 
+          @click="activeTab = 'social'"
+          class="flex items-center space-x-1.5 py-2 px-3 border-b-2 transition-colors whitespace-nowrap tracking-wide"
+          :class="activeTab === 'social' ? 'border-wp-blue text-wp-blue' : 'border-transparent text-gray-600 hover:text-gray-900'"
+        >
+          <Share2 class="w-3.5 h-3.5" />
+          <span>SOCIAL PREVIEW</span>
         </button>
       </div>
 
-      <!-- Tab 1: Content SEO Results -->
+      <!-- Tab 1: CONTENT SEO -->
       <div v-show="activeTab === 'content'" class="border border-gray-200 rounded-md bg-white divide-y divide-gray-100">
         <div class="p-2.5 bg-gray-50/70 text-xs font-semibold text-gray-700 flex items-center justify-between">
-          <span>Analysis Results &amp; Checks</span>
+          <span class="tracking-wide uppercase text-[11px]">CONTENT SEO Results &amp; Checks</span>
           <div class="flex items-center space-x-3 text-[11px]">
             <span class="flex items-center space-x-1 text-emerald-700">
               <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
@@ -298,28 +281,10 @@ const technicalItems = computed(() => {
         />
       </div>
 
-      <!-- Tab 2: Google SERP Preview -->
-      <div v-show="activeTab === 'google'">
-        <GoogleSearchPreview 
-          :seo-title="title"
-          :meta-description="metaDescription"
-          :slug="slug"
-        />
-      </div>
-
-      <!-- Tab 3: Social Media Preview -->
-      <div v-show="activeTab === 'social'">
-        <SocialPreview 
-          :title="title"
-          :description="metaDescription"
-          :og-image="featuredImage"
-        />
-      </div>
-
-      <!-- Tab 4: Technical SEO Checks -->
+      <!-- Tab 2: TECHNICAL SEO -->
       <div v-show="activeTab === 'technical'" class="border border-gray-200 rounded-md bg-white divide-y divide-gray-100">
-        <div class="p-2.5 bg-gray-50/70 text-xs font-semibold text-gray-700">
-          Technical SEO Parameters &amp; Crawlability
+        <div class="p-2.5 bg-gray-50/70 text-xs font-semibold text-gray-700 tracking-wide uppercase text-[11px]">
+          TECHNICAL SEO Parameters &amp; Crawlability
         </div>
         <AnalysisItemRow 
           v-for="(item, idx) in technicalItems"
@@ -328,6 +293,24 @@ const technicalItems = computed(() => {
           :status="item.status"
           :message="item.message"
           :details="item.details"
+        />
+      </div>
+
+      <!-- Tab 3: SEARCH PREVIEW -->
+      <div v-show="activeTab === 'search'">
+        <GoogleSearchPreview 
+          :seo-title="title"
+          :meta-description="metaDescription"
+          :slug="slug"
+        />
+      </div>
+
+      <!-- Tab 4: SOCIAL PREVIEW -->
+      <div v-show="activeTab === 'social'">
+        <SocialPreview 
+          :title="title"
+          :description="metaDescription"
+          :og-image="featuredImage"
         />
       </div>
     </div>

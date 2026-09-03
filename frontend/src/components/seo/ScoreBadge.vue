@@ -62,6 +62,6 @@ const badgeConfig = computed(() => {
   >
     <span class="w-2 h-2 rounded-full shrink-0 shadow-sm" :class="badgeConfig.dot"></span>
     <span v-if="showNumber" class="font-semibold tabular-nums">{{ score }}</span>
-    <span v-if="showLabel" class="opacity-90">({{ badgeConfig.text }})</span>
+    <span v-if="showLabel" class="font-medium" :class="{ 'ml-0.5 opacity-90': showNumber }">{{ showNumber ? `(${badgeConfig.text})` : badgeConfig.text }}</span>
   </div>
 </template>

@@ -7,7 +7,7 @@ import {
   FolderTree,
   Tag as TagIcon,
   Image as ImageIcon,
-  Sparkles,
+  BarChart2,
   Settings as SettingsIcon,
   ChevronDown,
   ChevronRight,
@@ -167,21 +167,18 @@ const isPostsActive = computed(() => {
         <!-- Divider -->
         <li class="h-[1px] bg-[#2c3338] my-1.5 mx-2"></li>
 
-        <!-- 6. SEO Analyzer -->
+        <!-- 6. Kencana SEO -->
         <li>
           <router-link
             to="/seo-audit"
             @click="emit('close')"
-            class="flex items-center justify-between px-3 py-2 text-yellow-400 hover:bg-wp-sidebarHover hover:text-yellow-300 transition-colors relative"
+            class="flex items-center justify-between px-3 py-2 text-gray-300 hover:bg-wp-sidebarHover hover:text-[#72aee6] transition-colors relative"
             :class="{ 'bg-wp-blue text-white font-medium': route.path === '/seo-audit' }"
           >
             <div class="flex items-center space-x-2.5">
-              <Sparkles class="w-4 h-4 text-yellow-400" />
-              <span class="font-semibold text-yellow-300">SEO Analyzer</span>
+              <BarChart2 class="w-4 h-4 opacity-90 text-blue-400" />
+              <span class="font-medium text-white">Kencana SEO</span>
             </div>
-            <span class="bg-yellow-500/20 text-yellow-300 text-[10px] px-1.5 py-0.2 rounded font-mono">
-              PRO
-            </span>
             <span
               v-if="route.path === '/seo-audit'"
               class="absolute right-0 top-0 bottom-0 w-1 bg-white"
@@ -216,9 +213,10 @@ const isPostsActive = computed(() => {
         <span>Kencana CMS</span>
         <span class="text-[#72aee6]">v2.4.1</span>
       </div>
-      <div class="mt-1 text-[10px] text-gray-500 flex items-center space-x-1">
+      <div class="mt-1.5 text-[10px] text-gray-400 flex items-center space-x-1.5">
         <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-        <span>Yoast-Engine Linked</span>
+        <span>Kencana SEO Engine</span>
+        <span class="text-emerald-400 font-medium">● Active</span>
       </div>
     </div>
   </aside>

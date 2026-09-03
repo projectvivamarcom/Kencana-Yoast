@@ -7,7 +7,7 @@ import {
   User, 
   Menu, 
   Activity, 
-  Sparkles,
+  BarChart2,
   ExternalLink,
   ChevronDown
 } from 'lucide-vue-next'
@@ -112,16 +112,17 @@ const showNewDropdown = ref(false)
             :class="postStore.backendStatus === 'online' ? 'bg-emerald-500' : 'bg-amber-500'"
           ></span>
         </span>
-        <span>FastAPI {{ postStore.backendStatus === 'online' ? 'Online' : 'Analyzer' }}</span>
+        <span>FastAPI {{ postStore.backendStatus === 'online' ? 'Online' : 'Standby' }}</span>
       </div>
 
       <!-- SEO Score Quick Tag -->
       <router-link 
         to="/seo-audit" 
-        class="flex items-center space-x-1 text-yellow-400 hover:text-yellow-300 hover:bg-[#131619] px-2 py-1 rounded transition-colors"
+        class="flex items-center space-x-1 text-blue-400 hover:text-blue-300 hover:bg-[#131619] px-2 py-1 rounded transition-colors"
+        title="Kencana SEO Active"
       >
-        <Sparkles class="w-3.5 h-3.5" />
-        <span class="hidden sm:inline font-medium">SEO Health</span>
+        <BarChart2 class="w-3.5 h-3.5" />
+        <span class="hidden sm:inline font-medium">Kencana SEO Active</span>
       </router-link>
 
       <!-- User Profile -->
@@ -130,7 +131,7 @@ const showNewDropdown = ref(false)
           @click="showUserDropdown = !showUserDropdown"
           class="flex items-center space-x-1.5 text-gray-300 hover:text-white hover:bg-[#131619] px-2 py-1 rounded transition-colors"
         >
-          <span>Howdy, <strong class="text-white">Admin Kencana</strong></span>
+          <span>Halo, <strong class="text-white">Admin Kencana</strong></span>
           <img 
             src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=100&auto=format&fit=crop" 
             alt="Admin Avatar" 

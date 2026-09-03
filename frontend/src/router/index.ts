@@ -61,7 +61,7 @@ const routes = [
     path: '/seo-audit',
     name: 'SeoAudit',
     component: SeoAudit,
-    meta: { title: 'SEO Analyzer ‹ Kencana Admin' }
+    meta: { title: 'Kencana SEO ‹ Kencana Admin' }
   },
   {
     path: '/settings',

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Sparkles, RotateCw, CheckCircle2, AlertTriangle, XCircle, Search, ExternalLink } from 'lucide-vue-next'
+import { BarChart2, RotateCw, CheckCircle2, AlertTriangle, XCircle, Search, ExternalLink } from 'lucide-vue-next'
 import { usePostStore } from '../stores/postStore'
 import ScoreBadge from '../components/seo/ScoreBadge.vue'
 import SeoAnalyzerPanel from '../components/seo/SeoAnalyzerPanel.vue'
@@ -37,9 +37,9 @@ const runAudit = async () => {
 <template>
   <div class="space-y-4">
     <div class="flex items-center justify-between pb-1 border-b border-gray-200">
-      <div class="flex items-center space-x-2">
-        <Sparkles class="w-6 h-6 text-yellow-500" />
-        <h1 class="text-2xl font-normal text-wp-text">Kencana SEO Analyzer &amp; Audit Tool</h1>
+      <div class="flex items-center space-x-2.5">
+        <BarChart2 class="w-6 h-6 text-[#2271b1]" />
+        <h1 class="text-2xl font-normal text-wp-text">Kencana SEO</h1>
       </div>
       <div class="flex items-center space-x-2">
         <a 
@@ -55,7 +55,7 @@ const runAudit = async () => {
 
     <!-- Live Interactive SEO Tester -->
     <div class="bg-white border border-wp-border rounded shadow-xs p-5 space-y-4">
-      <h2 class="text-sm font-semibold text-gray-800">Quick Interactive Content SEO Tester</h2>
+      <h2 class="text-sm font-semibold text-gray-800">Kencana SEO Interactive Tester</h2>
       <p class="text-xs text-gray-500">
         Uji coba analisis SEO dan Readability secara langsung menggunakan endpoint <code>POST /analyze</code>.
       </p>
@@ -104,7 +104,7 @@ const runAudit = async () => {
       </div>
     </div>
 
-    <!-- SEO Analyzer Panel Component -->
+    <!-- Kencana SEO Analysis Panel Component -->
     <SeoAnalyzerPanel 
       :title="testSeoTitle || testTitle"
       :slug="testSlug"
