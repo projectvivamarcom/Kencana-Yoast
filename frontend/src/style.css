@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #f0f0f1;
+    color: #2c3338;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+/* Classic WordPress Admin Styles & UI Accents */
+.wp-btn {
+  @apply inline-flex items-center justify-center px-3 py-1.5 text-xs font-medium rounded border border-wp-border bg-white text-wp-text hover:bg-gray-50 hover:border-gray-400 focus:outline-none focus:ring-1 focus:ring-wp-blue transition-colors cursor-pointer;
+}
+
+.wp-btn-primary {
+  @apply inline-flex items-center justify-center px-3 py-1.5 text-xs font-semibold rounded border border-[#135e96] bg-[#2271b1] text-white hover:bg-[#135e96] focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-[#2271b1] transition-colors cursor-pointer;
+}
+
+.wp-btn-danger {
+  @apply inline-flex items-center justify-center px-3 py-1.5 text-xs font-medium rounded border border-red-300 bg-red-50 text-red-700 hover:bg-red-100 transition-colors cursor-pointer;
+}
+
+.wp-input {
+  @apply block w-full px-2.5 py-1.5 text-sm rounded border border-wp-border bg-white text-wp-text focus:outline-none focus:border-wp-blue focus:ring-1 focus:ring-wp-blue transition-all;
+}
+
+.wp-select {
+  @apply block px-2.5 py-1.5 text-xs rounded border border-wp-border bg-white text-wp-text focus:outline-none focus:border-wp-blue focus:ring-1 focus:ring-wp-blue transition-all;
+}
+
+/* WordPress Postbox / Meta Box card */
+.wp-postbox {
+  @apply bg-white border border-wp-border rounded-none shadow-sm;
+}
+
+.wp-postbox-header {
+  @apply flex items-center justify-between px-4 py-3 border-b border-wp-border font-semibold text-sm text-wp-text select-none;
+}
+
+.wp-postbox-body {
+  @apply p-4;
+}
+
+/* WordPress Admin Notice Banner */
+.wp-notice {
+  @apply border-l-4 p-3 my-3 bg-white shadow-sm text-xs text-wp-text flex items-center justify-between;
+}
+.wp-notice-success {
+  @apply border-l-wp-good;
+}
+.wp-notice-warning {
+  @apply border-l-wp-warning;
+}
+.wp-notice-error {
+  @apply border-l-wp-poor;
+}
+
+/* Custom sleek scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}

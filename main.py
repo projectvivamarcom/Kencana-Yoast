@@ -1,10 +1,20 @@
 # pyrefly: ignore [missing-import]
 from fastapi import FastAPI
+# pyrefly: ignore [missing-import]
+from fastapi.middleware.cors import CORSMiddleware
 from app.schemas import AnalyzeRequest, AnalyzeResponse
 from app.analyzer.title_analyzer import run_seo_analysis
 
 
 app = FastAPI(title="Kencana SEO Analyzer")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.get("/")
