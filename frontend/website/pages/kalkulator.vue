@@ -1,5 +1,5 @@
 <script setup lang="ts">
-await navigateTo('/karir', { redirectCode: 301 })
+await navigateTo('/kalkulator-kencana', { redirectCode: 301 })
 </script>
 
 <template>

@@ -1,179 +1,322 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { Menu, X, ChevronDown, MessageCircle, Building2, Layers, ShieldCheck, Newspaper, MapPin, PhoneCall } from 'lucide-vue-next'
+import { ref, onMounted, onUnmounted } from 'vue'
+import { Menu, X, ChevronDown, Search, User, ExternalLink } from 'lucide-vue-next'
 
+const route = useRoute()
+const isScrolled = ref(false)
 const isMobileMenuOpen = ref(false)
-const isProductDropdownOpen = ref(false)
-const isCompanyDropdownOpen = ref(false)
+const isSearchOpen = ref(false)
+const searchQuery = ref('')
+const activeDropdown = ref<string | null>(null)
 
-const productCategories = [
-  { name: 'Atap Baja Ringan (Spandek)', desc: 'Gelombang kokoh & anti karat', href: '/products?cat=atap' },
-  { name: 'Genteng Metal & Pasir', desc: 'Estetis, ringan, dan kedap suara', href: '/products?cat=genteng' },
-  { name: 'Rangka Atap (Truss & Reng)', desc: 'Baja G550 berstandar SNI presisi', href: '/products?cat=rangka-atap' },
-  { name: 'Rangka Plafon (Hollow)', desc: 'Plafon gypsum & PVC tahan api', href: '/products?cat=rangka-plafon' },
-  { name: 'Struktural Decking', desc: 'Floor deck komposit hemat beton', href: '/products?cat=struktural-decking' },
-  { name: 'Produk Pendukung & Aksesoris', desc: 'Baut roofing, talang, dan insulasi', href: '/products?cat=pendukung' }
+const handleScroll = () => {
+  isScrolled.value = window.scrollY > 40
+}
+
+onMounted(() => {
+  handleScroll()
+  window.addEventListener('scroll', handleScroll, { passive: true })
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll)
+})
+
+const toggleDropdown = (name: string) => {
+  activeDropdown.value = activeDropdown.value === name ? null : name
+}
+
+const perusahaanItems = [
+  { name: 'Profil Perusahaan', href: '/about' },
+  { name: 'Sejarah Singkat', href: '/about#sejarah' },
+  { name: 'Visi & Misi', href: '/about#visi-misi' },
+  { name: 'Keunggulan Produk', href: '/about#keunggulan' },
+  { name: 'CABANG Kencana', href: '/branches' },
+  { name: 'Karir', href: '/karir' },
+  { name: 'KENCANA Store', href: 'https://kencanaindonesia.co.id/kencana-store', external: true }
 ]
 
-const companyItems = [
-  { name: 'Tentang PT Kencana', desc: 'Dedikasi manufaktur sejak 1991', href: '/about' },
-  { name: 'Standar Mutu & SNI', desc: 'Sertifikasi SNI 8399 & ISO 9001', href: '/about#standar-sni' },
-  { name: 'Inovasi Roll On Site', desc: 'Pencetakan atap langsung di proyek', href: '/#roll-on-site' }
+const produkCategories = [
+  {
+    title: 'Dekoratif/Arsitektural',
+    items: [
+      { name: 'Ceiling', href: '/products?cat=ceiling' },
+      { name: 'Louvre', href: '/products?cat=louvre' },
+      { name: 'Pintu', href: '/products?cat=pintu' },
+      { name: 'Para - para', href: '/products?cat=para-para' }
+    ]
+  },
+  {
+    title: 'Roofing & Walling',
+    items: [
+      { name: 'Atap', href: '/products?cat=atap' },
+      { name: 'Genteng', href: '/products?cat=genteng' },
+      { name: 'Aksesoris', href: '/products?cat=aksesoris' },
+      { name: 'Kerangka Green House', href: '/products?cat=greenhouse' },
+      { name: 'Spring Clip', href: '/products?cat=springclip' }
+    ]
+  },
+  {
+    title: 'Struktural',
+    items: [
+      { name: 'Rangka Baja Ringan', href: '/products?cat=rangka-baja-ringan' },
+      { name: 'Rangka Baja Berat', href: '/products?cat=rangka-baja-berat' },
+      { name: 'Rangka Partisi', href: '/products?cat=rangka-partisi' },
+      { name: 'Rangka Plafon', href: '/products?cat=rangka-plafon' },
+      { name: 'Struktural Decking', href: '/products?cat=struktural-decking' },
+      { name: 'Pipa Galvanis', href: '/products?cat=pipa-galvanis' }
+    ]
+  },
+  {
+    title: 'Pendukung',
+    items: [
+      { name: 'Baut', href: '/products?cat=baut' },
+      { name: 'Talang', href: '/products?cat=talang' },
+      { name: 'Insulasi', href: '/products?cat=insulasi' }
+    ]
+  }
 ]
+
+const isHomePage = computed(() => route.path === '/')
+const isTransparent = computed(() => isHomePage.value && !isScrolled.value && !isMobileMenuOpen.value)
+
+// Search Results Quick Data
+const searchableItems = [
+  { name: 'Atap Baja Ringan Spandek', type: 'Produk', link: '/products?cat=atap' },
+  { name: 'Genteng Metal Pasir & Polos', type: 'Produk', link: '/products?cat=genteng' },
+  { name: 'Truss & Reng Baja Ringan SNI', type: 'Produk', link: '/products?cat=rangka-baja-ringan' },
+  { name: 'Hollow Plafon & Furing', type: 'Produk', link: '/products?cat=rangka-plafon' },
+  { name: 'Kalkulator Baja Ringan Kencana', type: 'Kalkulator', link: '/kalkulator-kencana' },
+  { name: 'Lowongan Kerja PT Kencana Maju Bersama', type: 'Karir', link: '/karir' },
+  { name: 'Daftar 50+ Cabang Kencana di Indonesia', type: 'Cabang', link: '/branches' },
+  { name: 'Profil PT Kencana Maju Bersama', type: 'Tentang Kami', link: '/about' }
+]
+
+const searchResults = computed(() => {
+  if (!searchQuery.value.trim()) return []
+  const q = searchQuery.value.toLowerCase()
+  return searchableItems.filter(item => item.name.toLowerCase().includes(q) || item.type.toLowerCase().includes(q))
+})
 </script>
 
 <template>
-  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-sm transition-all">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-20">
-        <!-- Logo -->
-        <NuxtLink to="/" class="flex items-center space-x-3 group">
+  <header 
+    class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 font-sans"
+    :class="[
+      isTransparent 
+        ? 'bg-gradient-to-b from-black/70 via-black/30 to-transparent text-white' 
+        : 'bg-white/95 backdrop-blur-md shadow-md text-slate-900 border-b border-slate-100'
+    ]"
+  >
+    <div class="max-w-[1340px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20 sm:h-22">
+        <!-- Brand Logo (White Logo when at top, Red Logo when scrolled) -->
+        <NuxtLink to="/" class="flex items-center transition-transform hover:opacity-95">
           <img 
+            v-if="isTransparent"
+            src="/images/logo/logo-kencana-white.webp" 
+            alt="Kencana Ahlinya Baja Ringan" 
+            class="h-10 sm:h-12 w-auto object-contain transition-all duration-300"
+          />
+          <img 
+            v-else
             src="/images/logo/logo-kencana.webp" 
             alt="Kencana Ahlinya Baja Ringan" 
-            class="h-10 sm:h-12 w-auto object-contain transition-transform group-hover:scale-105"
+            class="h-10 sm:h-12 w-auto object-contain transition-all duration-300"
           />
         </NuxtLink>
 
-        <!-- Desktop Navigation Links -->
-        <nav class="hidden lg:flex items-center space-x-1">
-          <NuxtLink 
-            to="/" 
-            class="px-3.5 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:text-kencana-red hover:bg-red-50/50 transition-colors"
-            active-class="!text-kencana-red bg-red-50/80"
-          >
-            Beranda
-          </NuxtLink>
-
-          <!-- Dropdown Perusahaan -->
-          <div class="relative group" @mouseenter="isCompanyDropdownOpen = true" @mouseleave="isCompanyDropdownOpen = false">
+        <!-- Desktop Menu Links (Exact Order: Produk, Perusahaan, Katalog, Berita, Proyek, Kalkulator, Karir, Cabang, Kontak) -->
+        <nav class="hidden xl:flex items-center space-x-5 2xl:space-x-6 text-[14px] font-bold">
+          <!-- Produk Mega Menu -->
+          <div class="relative group" @mouseenter="activeDropdown = 'produk'" @mouseleave="activeDropdown = null">
             <button 
               type="button"
-              class="inline-flex items-center space-x-1 px-3.5 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:text-kencana-red hover:bg-red-50/50 transition-colors"
-            >
-              <span>Perusahaan</span>
-              <ChevronDown class="w-4 h-4 text-slate-400 group-hover:text-kencana-red transition-transform group-hover:rotate-180" />
-            </button>
-
-            <!-- Dropdown Menu -->
-            <div 
-              v-show="isCompanyDropdownOpen"
-              class="absolute left-0 top-full pt-2 w-72 transition-all animate-fadeIn"
-            >
-              <div class="bg-white rounded-2xl shadow-xl border border-slate-100 p-2 space-y-1">
-                <NuxtLink 
-                  v-for="item in companyItems" 
-                  :key="item.name"
-                  :to="item.href"
-                  class="block p-3 rounded-xl hover:bg-slate-50 transition-colors"
-                >
-                  <div class="text-sm font-bold text-slate-900 hover:text-kencana-red">{{ item.name }}</div>
-                  <div class="text-xs text-slate-500 mt-0.5">{{ item.desc }}</div>
-                </NuxtLink>
-              </div>
-            </div>
-          </div>
-
-          <!-- Dropdown Produk -->
-          <div class="relative group" @mouseenter="isProductDropdownOpen = true" @mouseleave="isProductDropdownOpen = false">
-            <button 
-              type="button"
-              class="inline-flex items-center space-x-1 px-3.5 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:text-kencana-red hover:bg-red-50/50 transition-colors"
+              class="inline-flex items-center space-x-1 py-2 transition-colors"
+              :class="isTransparent ? 'text-white hover:text-red-400' : 'text-slate-900 hover:text-kencana-red'"
             >
               <span>Produk</span>
-              <ChevronDown class="w-4 h-4 text-slate-400 group-hover:text-kencana-red transition-transform group-hover:rotate-180" />
+              <ChevronDown 
+                class="w-3.5 h-3.5 transition-transform group-hover:rotate-180" 
+                :class="isTransparent ? 'text-white/80' : 'text-slate-400'"
+              />
             </button>
 
-            <!-- Mega Dropdown Menu -->
+            <!-- Mega Menu Dropdown -->
             <div 
-              v-show="isProductDropdownOpen"
-              class="absolute -left-20 top-full pt-2 w-[520px] transition-all animate-fadeIn"
+              v-show="activeDropdown === 'produk'"
+              class="absolute -left-32 top-full pt-2 w-[840px] animate-fadeIn"
             >
-              <div class="bg-white rounded-2xl shadow-2xl border border-slate-100 p-4">
-                <div class="grid grid-cols-2 gap-2">
-                  <NuxtLink 
-                    v-for="cat in productCategories" 
-                    :key="cat.name"
-                    :to="cat.href"
-                    class="p-3 rounded-xl hover:bg-slate-50 transition-colors group/item"
-                  >
-                    <div class="text-sm font-bold text-slate-900 group-hover/item:text-kencana-red transition-colors">
-                      {{ cat.name }}
+              <div class="bg-white rounded-2xl shadow-2xl border border-slate-100 p-6 text-slate-800">
+                <div class="grid grid-cols-4 gap-6">
+                  <div v-for="cat in produkCategories" :key="cat.title" class="space-y-3">
+                    <div class="text-xs font-extrabold uppercase tracking-wider text-slate-900 border-b border-red-500 pb-1.5 inline-block">
+                      {{ cat.title }}
                     </div>
-                    <div class="text-xs text-slate-500 mt-0.5">
-                      {{ cat.desc }}
-                    </div>
-                  </NuxtLink>
-                </div>
-                <div class="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between px-2 text-xs">
-                  <span class="text-slate-500 font-medium">Semua produk bersertifikat SNI &amp; TKDN</span>
-                  <NuxtLink to="/products" class="font-bold text-kencana-red hover:underline">
-                    Lihat Semua Katalog &rarr;
-                  </NuxtLink>
+                    <ul class="space-y-1.5 text-xs text-slate-600">
+                      <li v-for="item in cat.items" :key="item.name">
+                        <NuxtLink :to="item.href" class="hover:text-kencana-red transition-colors block py-0.5">
+                          {{ item.name }}
+                        </NuxtLink>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
+          <!-- Perusahaan Dropdown -->
+          <div class="relative group" @mouseenter="activeDropdown = 'perusahaan'" @mouseleave="activeDropdown = null">
+            <button 
+              type="button"
+              class="inline-flex items-center space-x-1 py-2 transition-colors"
+              :class="isTransparent ? 'text-white hover:text-red-400' : 'text-slate-900 hover:text-kencana-red'"
+            >
+              <span>Perusahaan</span>
+              <ChevronDown 
+                class="w-3.5 h-3.5 transition-transform group-hover:rotate-180" 
+                :class="isTransparent ? 'text-white/80' : 'text-slate-400'"
+              />
+            </button>
+
+            <div 
+              v-show="activeDropdown === 'perusahaan'"
+              class="absolute left-0 top-full pt-2 w-56 animate-fadeIn"
+            >
+              <div class="bg-white rounded-xl shadow-xl border border-slate-100 py-2 divide-y divide-slate-50 text-slate-800">
+                <div class="py-1">
+                  <component
+                    :is="item.external ? 'a' : 'NuxtLink'"
+                    v-for="item in perusahaanItems"
+                    :key="item.name"
+                    :href="item.external ? item.href : undefined"
+                    :to="!item.external ? item.href : undefined"
+                    :target="item.external ? '_blank' : undefined"
+                    class="block px-4 py-2 text-xs font-semibold text-slate-700 hover:text-kencana-red hover:bg-slate-50 transition-colors"
+                  >
+                    {{ item.name }}
+                  </component>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Katalog Link (External shortlink from WP) -->
+          <a 
+            href="https://shorturl.at/TcW29" 
+            target="_blank"
+            rel="noopener noreferrer"
+            class="py-2 transition-colors"
+            :class="isTransparent ? 'text-white hover:text-red-400' : 'text-slate-900 hover:text-kencana-red'"
+          >
+            Katalog
+          </a>
+
+          <!-- Berita Link -->
           <NuxtLink 
-            to="/#roll-on-site" 
-            class="px-3.5 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:text-kencana-red hover:bg-red-50/50 transition-colors"
+            to="/articles" 
+            class="py-2 transition-colors"
+            :class="isTransparent ? 'text-white hover:text-red-400' : 'text-slate-900 hover:text-kencana-red'"
+            active-class="!text-kencana-red"
+          >
+            Berita
+          </NuxtLink>
+
+          <!-- Proyek Link -->
+          <NuxtLink 
+            to="/about#proyek" 
+            class="py-2 transition-colors"
+            :class="isTransparent ? 'text-white hover:text-red-400' : 'text-slate-900 hover:text-kencana-red'"
+            active-class="!text-kencana-red"
           >
             Proyek
           </NuxtLink>
 
+          <!-- Kalkulator Link -->
           <NuxtLink 
-            to="/articles" 
-            class="px-3.5 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:text-kencana-red hover:bg-red-50/50 transition-colors"
-            active-class="!text-kencana-red bg-red-50/80"
+            to="/kalkulator-kencana" 
+            class="py-2 transition-colors"
+            :class="isTransparent ? 'text-white hover:text-red-400' : 'text-slate-900 hover:text-kencana-red'"
+            active-class="!text-kencana-red"
           >
-            Berita &amp; Acara
+            Kalkulator
           </NuxtLink>
 
+          <!-- Karir Link -->
+          <NuxtLink 
+            to="/karir" 
+            class="py-2 transition-colors"
+            :class="isTransparent ? 'text-white hover:text-red-400' : 'text-slate-900 hover:text-kencana-red'"
+            active-class="!text-kencana-red"
+          >
+            Karir
+          </NuxtLink>
+
+          <!-- Cabang Link -->
           <NuxtLink 
             to="/branches" 
-            class="px-3.5 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:text-kencana-red hover:bg-red-50/50 transition-colors"
-            active-class="!text-kencana-red bg-red-50/80"
+            class="py-2 transition-colors"
+            :class="isTransparent ? 'text-white hover:text-red-400' : 'text-slate-900 hover:text-kencana-red'"
+            active-class="!text-kencana-red"
           >
-            Cabang &amp; Depo
+            Cabang
           </NuxtLink>
 
+          <!-- Kontak Link -->
           <NuxtLink 
             to="/contact" 
-            class="px-3.5 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:text-kencana-red hover:bg-red-50/50 transition-colors"
-            active-class="!text-kencana-red bg-red-50/80"
+            class="py-2 transition-colors"
+            :class="isTransparent ? 'text-white hover:text-red-400' : 'text-slate-900 hover:text-kencana-red'"
+            active-class="!text-kencana-red"
           >
             Kontak
           </NuxtLink>
         </nav>
 
-        <!-- Right CTA Button -->
-        <div class="hidden sm:flex items-center space-x-3">
+        <!-- Right Side: Search Icon, User Icon, & Kencana Store Button -->
+        <div class="flex items-center space-x-2 sm:space-x-3">
+          <!-- Search Icon Button -->
+          <button 
+            type="button"
+            @click="isSearchOpen = true"
+            class="p-2 rounded-full transition-colors"
+            :class="isTransparent ? 'text-white hover:text-red-400 hover:bg-white/10' : 'text-slate-800 hover:text-kencana-red hover:bg-slate-100'"
+            aria-label="Cari produk atau informasi"
+          >
+            <Search class="w-5 h-5" />
+          </button>
+
+          <!-- User / Admin Login Icon -->
           <a 
-            href="https://wa.me/6281131158000?text=Halo%20Kencana,%20saya%20ingin%20konsultasi%20produk%20baja%20ringan"
+            href="http://localhost:5173"
+            target="_blank"
+            class="p-2 rounded-full transition-colors hidden sm:inline-flex"
+            :class="isTransparent ? 'text-white hover:text-red-400 hover:bg-white/10' : 'text-slate-800 hover:text-kencana-red hover:bg-slate-100'"
+            title="Kencana CMS Portal"
+            aria-label="Login CMS"
+          >
+            <User class="w-5 h-5" />
+          </a>
+
+          <!-- Kencana Store CTA -->
+          <a 
+            href="https://kencanaindonesia.co.id/kencana-store" 
             target="_blank"
             rel="noopener noreferrer"
-            class="inline-flex items-center space-x-2 px-5 py-2.5 rounded-xl bg-kencana-red hover:bg-kencana-redDark text-white font-bold text-sm shadow-md hover:shadow-lg transition-all transform active:scale-95"
+            class="hidden md:inline-flex items-center space-x-1.5 px-4 py-2 rounded-lg bg-kencana-red hover:bg-kencana-redDark text-white font-bold text-xs shadow-sm hover:shadow-md transition-all"
           >
-            <MessageCircle class="w-4 h-4" />
-            <span>Halo KENCANA</span>
+            <span>KENCANA Store</span>
+            <ExternalLink class="w-3.5 h-3.5" />
           </a>
-        </div>
 
-        <!-- Mobile Menu Hamburger Button -->
-        <div class="flex lg:hidden items-center space-x-2">
-          <a 
-            href="https://wa.me/6281131158000"
-            class="p-2 rounded-xl bg-red-50 text-kencana-red sm:hidden"
-            aria-label="WhatsApp"
-          >
-            <MessageCircle class="w-5 h-5" />
-          </a>
+          <!-- Mobile Hamburger Menu Button -->
           <button 
             type="button"
             @click="isMobileMenuOpen = !isMobileMenuOpen"
-            class="p-2.5 rounded-xl text-slate-700 hover:text-kencana-red hover:bg-slate-100 transition-colors"
-            aria-label="Toggle Navigation Menu"
+            class="p-2 xl:hidden focus:outline-none transition-colors"
+            :class="isTransparent ? 'text-white hover:text-red-400' : 'text-slate-900 hover:text-kencana-red'"
+            aria-label="Buka Menu"
           >
             <Menu v-if="!isMobileMenuOpen" class="w-6 h-6" />
             <X v-else class="w-6 h-6 text-kencana-red" />
@@ -184,81 +327,161 @@ const companyItems = [
 
     <!-- Mobile Drawer Menu -->
     <div 
-      v-show="isMobileMenuOpen" 
-      class="lg:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-6 space-y-3 shadow-xl max-h-[85vh] overflow-y-auto"
+      v-show="isMobileMenuOpen"
+      class="xl:hidden bg-white text-slate-900 border-t border-slate-100 px-6 py-5 space-y-4 shadow-2xl max-h-[85vh] overflow-y-auto animate-fadeIn"
     >
-      <NuxtLink 
-        to="/" 
-        @click="isMobileMenuOpen = false"
-        class="block px-3 py-2 rounded-lg text-base font-semibold text-slate-800 hover:bg-red-50 hover:text-kencana-red"
-      >
+      <NuxtLink to="/" @click="isMobileMenuOpen = false" class="block py-2 text-sm font-bold text-slate-900 border-b border-slate-50">
         Beranda
       </NuxtLink>
 
-      <NuxtLink 
-        to="/about" 
-        @click="isMobileMenuOpen = false"
-        class="block px-3 py-2 rounded-lg text-base font-semibold text-slate-800 hover:bg-red-50 hover:text-kencana-red"
-      >
-        Perusahaan Kami (Sejak 1991)
-      </NuxtLink>
+      <!-- Mobile Produk Accordion -->
+      <div class="py-1 border-b border-slate-50">
+        <button 
+          type="button"
+          @click="toggleDropdown('mobile-produk')"
+          class="flex items-center justify-between w-full py-2 text-sm font-bold text-slate-900"
+        >
+          <span>Produk</span>
+          <ChevronDown class="w-4 h-4 transition-transform" :class="activeDropdown === 'mobile-produk' ? 'rotate-180' : ''" />
+        </button>
+        <div v-show="activeDropdown === 'mobile-produk'" class="pl-4 py-2 space-y-3 text-xs">
+          <div v-for="cat in produkCategories" :key="cat.title" class="space-y-1">
+            <div class="font-bold text-kencana-red">{{ cat.title }}</div>
+            <div class="pl-2 space-y-1">
+              <NuxtLink 
+                v-for="item in cat.items" 
+                :key="item.name" 
+                :to="item.href"
+                @click="isMobileMenuOpen = false"
+                class="block py-0.5 text-slate-600"
+              >
+                {{ item.name }}
+              </NuxtLink>
+            </div>
+          </div>
+        </div>
+      </div>
 
-      <div class="px-3 py-2">
-        <div class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Produk Kencana SNI</div>
-        <div class="space-y-1 pl-2 border-l-2 border-kencana-red/30">
+      <!-- Mobile Perusahaan Accordion -->
+      <div class="py-1 border-b border-slate-50">
+        <button 
+          type="button"
+          @click="toggleDropdown('mobile-perusahaan')"
+          class="flex items-center justify-between w-full py-2 text-sm font-bold text-slate-900"
+        >
+          <span>Perusahaan</span>
+          <ChevronDown class="w-4 h-4 transition-transform" :class="activeDropdown === 'mobile-perusahaan' ? 'rotate-180' : ''" />
+        </button>
+        <div v-show="activeDropdown === 'mobile-perusahaan'" class="pl-4 py-1 space-y-1 text-xs">
           <NuxtLink 
-            v-for="cat in productCategories" 
-            :key="cat.name"
-            :to="cat.href"
+            v-for="item in perusahaanItems" 
+            :key="item.name" 
+            :to="item.href"
             @click="isMobileMenuOpen = false"
-            class="block py-1.5 text-sm font-medium text-slate-700 hover:text-kencana-red"
+            class="block py-1 text-slate-600 hover:text-kencana-red"
           >
-            {{ cat.name }}
+            {{ item.name }}
           </NuxtLink>
         </div>
       </div>
 
-      <NuxtLink 
-        to="/#roll-on-site" 
-        @click="isMobileMenuOpen = false"
-        class="block px-3 py-2 rounded-lg text-base font-semibold text-slate-800 hover:bg-red-50 hover:text-kencana-red"
-      >
-        Proyek Roll On Site
+      <a href="https://shorturl.at/TcW29" target="_blank" class="block py-2 text-sm font-bold text-slate-900 border-b border-slate-50">
+        Katalog
+      </a>
+      <NuxtLink to="/articles" @click="isMobileMenuOpen = false" class="block py-2 text-sm font-bold text-slate-900 border-b border-slate-50">
+        Berita
+      </NuxtLink>
+      <NuxtLink to="/about#proyek" @click="isMobileMenuOpen = false" class="block py-2 text-sm font-bold text-slate-900 border-b border-slate-50">
+        Proyek
+      </NuxtLink>
+      <NuxtLink to="/kalkulator-kencana" @click="isMobileMenuOpen = false" class="block py-2 text-sm font-bold text-slate-900 border-b border-slate-50">
+        Kalkulator
+      </NuxtLink>
+      <NuxtLink to="/karir" @click="isMobileMenuOpen = false" class="block py-2 text-sm font-bold text-slate-900 border-b border-slate-50">
+        Karir
+      </NuxtLink>
+      <NuxtLink to="/branches" @click="isMobileMenuOpen = false" class="block py-2 text-sm font-bold text-slate-900 border-b border-slate-50">
+        Cabang
+      </NuxtLink>
+      <NuxtLink to="/contact" @click="isMobileMenuOpen = false" class="block py-2 text-sm font-bold text-slate-900">
+        Kontak
       </NuxtLink>
 
-      <NuxtLink 
-        to="/articles" 
-        @click="isMobileMenuOpen = false"
-        class="block px-3 py-2 rounded-lg text-base font-semibold text-slate-800 hover:bg-red-50 hover:text-kencana-red"
-      >
-        Berita &amp; Acara
-      </NuxtLink>
-
-      <NuxtLink 
-        to="/branches" 
-        @click="isMobileMenuOpen = false"
-        class="block px-3 py-2 rounded-lg text-base font-semibold text-slate-800 hover:bg-red-50 hover:text-kencana-red"
-      >
-        Cabang &amp; Depo (50+ Cabang)
-      </NuxtLink>
-
-      <NuxtLink 
-        to="/contact" 
-        @click="isMobileMenuOpen = false"
-        class="block px-3 py-2 rounded-lg text-base font-semibold text-slate-800 hover:bg-red-50 hover:text-kencana-red"
-      >
-        Hubungi Kami
-      </NuxtLink>
-
-      <div class="pt-4 border-t border-slate-100">
+      <div class="pt-2">
         <a 
-          href="https://wa.me/6281131158000"
+          href="https://kencanaindonesia.co.id/kencana-store" 
           target="_blank"
-          class="w-full flex items-center justify-center space-x-2 py-3 rounded-xl bg-kencana-red text-white font-bold text-sm shadow-md"
+          class="block w-full py-2.5 text-center rounded-lg bg-kencana-red text-white font-bold text-xs shadow-md"
         >
-          <MessageCircle class="w-4 h-4" />
-          <span>Chat WhatsApp Halo KENCANA</span>
+          KENCANA Store
         </a>
+      </div>
+    </div>
+
+    <!-- Search Modal Popup (Matches WordPress #ekit_modal-popup) -->
+    <div 
+      v-if="isSearchOpen"
+      class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-start justify-center pt-24 px-4 animate-fadeIn"
+      @click.self="isSearchOpen = false"
+    >
+      <div class="bg-white rounded-2xl w-full max-w-2xl shadow-2xl overflow-hidden border border-slate-100">
+        <!-- Search Input Bar -->
+        <div class="p-4 sm:p-6 border-b border-slate-100 flex items-center space-x-3">
+          <Search class="w-5 h-5 text-slate-400 shrink-0" />
+          <input 
+            v-model="searchQuery"
+            type="text"
+            autofocus
+            placeholder="Cari produk, artikel, cabang, atau dokumen..."
+            class="flex-1 text-slate-900 text-sm sm:text-base focus:outline-none"
+          />
+          <button 
+            type="button" 
+            @click="isSearchOpen = false" 
+            class="p-1 rounded-full text-slate-400 hover:text-slate-800"
+          >
+            <X class="w-5 h-5" />
+          </button>
+        </div>
+
+        <!-- Search Results List -->
+        <div class="max-h-80 overflow-y-auto p-4 sm:p-6">
+          <div v-if="searchResults.length > 0" class="space-y-2">
+            <NuxtLink 
+              v-for="item in searchResults" 
+              :key="item.name"
+              :to="item.link"
+              @click="isSearchOpen = false; searchQuery = ''"
+              class="flex items-center justify-between p-3 rounded-xl hover:bg-slate-50 transition-colors group"
+            >
+              <span class="text-sm font-semibold text-slate-800 group-hover:text-kencana-red transition-colors">
+                {{ item.name }}
+              </span>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400 bg-slate-100 px-2 py-0.5 rounded">
+                {{ item.type }}
+              </span>
+            </NuxtLink>
+          </div>
+
+          <div v-else-if="searchQuery.trim()" class="text-center py-8 text-xs text-slate-400">
+            Tidak ditemukan hasil untuk "{{ searchQuery }}"
+          </div>
+
+          <div v-else class="space-y-3">
+            <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Paling Sering Dicari:</p>
+            <div class="flex flex-wrap gap-2">
+              <NuxtLink 
+                v-for="tag in ['Kalkulator Baja Ringan', 'Atap Spandek', 'Genteng Metal', 'Karir', 'Cabang', 'MaxiCAD']"
+                :key="tag"
+                :to="tag === 'Karir' ? '/karir' : tag === 'Kalkulator Baja Ringan' ? '/kalkulator-kencana' : '/products'"
+                @click="isSearchOpen = false"
+                class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-red-50 hover:text-kencana-red text-xs font-semibold text-slate-700 transition-colors"
+              >
+                {{ tag }}
+              </NuxtLink>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </header>

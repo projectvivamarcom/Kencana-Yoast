@@ -1,105 +1,124 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { ChevronDown, HelpCircle } from 'lucide-vue-next'
-import SectionTitle from './SectionTitle.vue'
+import { Plus, Minus } from 'lucide-vue-next'
 
-interface FaqItem {
-  question: string
-  answer: string
-}
+const openIndex = ref<number | null>(null)
 
-const openIndex = ref<number | null>(0)
-
-const toggleFaq = (idx: number) => {
+const toggle = (idx: number) => {
   openIndex.value = openIndex.value === idx ? null : idx
 }
 
-const faqs: FaqItem[] = [
+const faqs = [
   {
-    question: 'Apakah saya bisa melihat contoh produk baja ringan KENCANA secara langsung?',
-    answer: 'Tentu! Anda dapat melihat sampel fisik contoh produk baja ringan KENCANA secara langsung di Gedung Pusat KENCANA, Jl. Bubutan 127-135 Surabaya, atau berkunjung ke 50+ cabang KENCANA yang tersebar di berbagai kota di Indonesia.'
+    q: 'Apakah saya bisa melihat contoh produk baja ringan KENCANA secara langsung?',
+    a: 'Tentu! Anda dapat melihat contoh produk baja ringan KENCANA secara langsung di Gedung KENCANA Jl. Bubutan 127-135 Surabaya atau dapat berkunjung ke cabang KENCANA di kota terdekat.'
   },
   {
-    question: 'Apakah saya dapat membeli produk baja ringan KENCANA secara eceran?',
-    answer: 'Ya, Anda dapat membeli produk baja ringan KENCANA secara eceran maupun partai besar melalui layanan Halo KENCANA di WhatsApp 0811-3115-8000 atau melalui toko material bahan bangunan rekanan resmi di kota Anda.'
+    q: 'Apakah saya dapat membeli produk baja ringan KENCANA secara eceran?',
+    a: 'Ya, Anda dapat membeli produk baja ringan KENCANA melalui Halo KENCANA di 0811-3115-8000 atau langsung berkunjung ke cabang KENCANA terdekat di kota Anda.'
   },
   {
-    question: 'Apakah produk baja ringan KENCANA berstandar nasional dan memiliki TKDN?',
-    answer: 'Ya, seluruh lini produk baja ringan KENCANA diproduksi dengan sertifikasi SNI resmi (SNI 8399:2017 untuk profil rangka & SNI 4096:2019 untuk BjLAS) serta memiliki sertifikasi Tingkat Komponen Dalam Negeri (TKDN).'
+    q: 'Apakah produk baja ringan KENCANA berstandar nasional dan TKDN?',
+    a: 'Ya, produk baja ringan KENCANA memiliki SNI dan TKDN.'
   },
   {
-    question: 'Apakah produk baja ringan KENCANA memiliki garansi resmi?',
-    answer: 'Ya, KENCANA memberikan garansi mutu hingga 10 sampai 20 tahun* (sesuai spesifikasi produk dan syarat & ketentuan yang berlaku) sebagai bukti komitmen kami terhadap daya tahan material bangunan Anda.'
+    q: 'Bagaimana saya mendapatkan nomor telepon cabang KENCANA di kota saya berada?',
+    a: 'Anda dapat menghubungi Halo KENCANA di 0811-3115-8000 melalui Whatsapp atau Telepon dan tanyakan nomor telepon cabang/sales di kota anda berada.'
   },
   {
-    question: 'Berapa standar minimal lapisan Aluminium Seng (AZ) pada produk KENCANA?',
-    answer: 'Produk baja ringan KENCANA menggunakan standar minimal lapisan AZ100 (100 gram/m2) untuk memastikan daya tahan optimal terhadap korosi dan kelembapan iklim tropis Indonesia.'
+    q: 'Apakah produk baja ringan KENCANA dapat dibeli dengan rikues warna dan ukuran tertentu?',
+    a: 'Bisa, tergantung dari ketersedian stok yang ada.'
   },
   {
-    question: 'Apakah KENCANA menyediakan perhitungan rangka atap dengan software?',
-    answer: 'Ya, KENCANA menyediakan layanan perhitungan konstruksi rangka atap menggunakan software khusus MaxiCAD. Software ini menganalisis kekuatan kuda-kuda dan beban angin secara akurat untuk memastikan struktur aman dan efisien.'
+    q: 'Dimanakah saya dapat membeli produk baja ringan KENCANA?',
+    a: 'Anda dapat membeli produk KENCANA melalui 50 lebih cabang kami di seluruh Indonesia atau toko material bahan bangunan langganan di kota Anda. Informasi lebih lanjut hubungi Halo KENCANA di 0811-3115-8000 melalui Whatsapp.'
+  },
+  {
+    q: 'Apakah produk baja ringan KENCANA memiliki garansi?',
+    a: 'Ya, produk kami memiliki garansi hingga 10 Tahun* (S&K Berlaku).'
+  },
+  {
+    q: 'Apakah produk baja ringan KENCANA memiliki sertifikasi uji?',
+    a: 'Ya, produk baja ringan KENCANA memiliki sertifikasi uji*'
+  },
+  {
+    q: 'Berapa standar minimal lapisan AZ yang dimilki oleh produk baja ringan KENCANA?',
+    a: 'Produk baja ringan KENCANA memiliki standar minimal AZ100'
+  },
+  {
+    q: 'Apakah KENCANA menyediakan perhitungan rangka atap?',
+    a: 'Ya, KENCANA menyediakan perhitungan rangka atap dengan software khusus, - Maxicad. Maxicad adalah software analisa struktur kuda-kuda yang diciptakan untuk profil baja ringan KENCANA pada rangka atap. Maxicad, telah direkomendasikan untuk rancang bangun atap yang presisi dan kokoh.'
   }
 ]
 </script>
 
 <template>
-  <section class="py-24 bg-white border-t border-slate-100" id="faqs">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-      <!-- Section Title -->
-      <SectionTitle 
-        badge="Pertanyaan Umum"
-        title="Frequently Asked"
-        highlight="Questions (FAQs)"
-        subtitle="Temukan jawaban atas berbagai pertanyaan seputar spesifikasi material, sertifikasi mutu, garansi, serta cara pemesanan produk baja ringan Kencana."
-        align="center"
-      />
+  <section class="py-20 bg-white border-b border-slate-100" id="faqs">
+    <div class="max-w-[1300px] mx-auto px-6 sm:px-10 lg:px-16 space-y-12">
+      <!-- Section Header -->
+      <div class="space-y-2 text-center">
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+          FAQs
+        </h2>
+        <p class="text-sm sm:text-base text-slate-600">
+          Kami akan menjawab pertanyaan yang sering diajukan tentang KENCANA
+        </p>
+      </div>
 
-      <!-- FAQ Accordion List -->
-      <div class="space-y-4">
+      <!-- Accordion List -->
+      <div class="max-w-4xl mx-auto divide-y divide-slate-200 border-y border-slate-200">
         <div 
           v-for="(faq, idx) in faqs" 
-          :key="faq.question"
-          class="rounded-2xl border border-slate-200/90 overflow-hidden transition-all duration-200"
-          :class="openIndex === idx ? 'bg-slate-50 border-red-200 shadow-sm' : 'bg-white hover:border-slate-300'"
+          :key="idx"
+          class="py-4 sm:py-5"
         >
           <button 
             type="button"
-            @click="toggleFaq(idx)"
-            class="w-full px-6 py-5 text-left flex items-center justify-between space-x-4 focus:outline-none"
+            @click="toggle(idx)"
+            class="w-full flex items-center justify-between text-left space-x-4 focus:outline-none group"
           >
-            <span class="text-sm sm:text-base font-bold text-slate-900 leading-snug">
-              {{ faq.question }}
+            <span class="text-sm sm:text-base font-bold text-slate-900 group-hover:text-red-600 transition-colors">
+              {{ faq.q }}
             </span>
-            <span 
-              class="w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-transform duration-300"
-              :class="openIndex === idx ? 'bg-kencana-red text-white rotate-180' : 'bg-slate-100 text-slate-500'"
-            >
-              <ChevronDown class="w-4 h-4" />
+            <span class="w-6 h-6 flex items-center justify-center shrink-0 text-slate-400 group-hover:text-red-600 transition-colors">
+              <Minus v-if="openIndex === idx" class="w-5 h-5 text-red-600" />
+              <Plus v-else class="w-5 h-5" />
             </span>
           </button>
 
           <div 
-            v-show="openIndex === idx" 
-            class="px-6 pb-6 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100/80 pt-3"
+            v-show="openIndex === idx"
+            class="mt-3 text-xs sm:text-sm text-slate-600 leading-relaxed pr-8 animate-fadeIn"
           >
-            {{ faq.answer }}
+            {{ faq.a }}
           </div>
         </div>
       </div>
 
-      <!-- Still Have Questions CTA -->
-      <div class="text-center pt-4">
-        <p class="text-xs sm:text-sm text-slate-500">
-          Punya pertanyaan spesifik mengenai kebutuhan proyek Anda?
-        </p>
-        <a 
-          href="https://wa.me/6281131158000?text=Halo%20Kencana,%20saya%20ada%20pertanyaan%20seputar%20produk"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="inline-block mt-2 font-bold text-sm text-kencana-red hover:text-kencana-redDark underline"
-        >
-          Tanyakan Langsung ke Tim Halo KENCANA di WhatsApp &rarr;
-        </a>
+      <!-- Partner / Certification Badges Logo Bar (Section 19 & 20) -->
+      <div class="pt-12 space-y-8 text-center">
+        <!-- SNI dkk Banner -->
+        <div class="flex justify-center">
+          <img 
+            src="/images/general/sni-dkk.png" 
+            alt="Sertifikasi SNI Kencana" 
+            class="max-w-md sm:max-w-lg w-full h-auto object-contain"
+          />
+        </div>
+
+        <!-- Green Product Award & Tidak Tipu-Tipu -->
+        <div class="flex items-center justify-center space-x-8">
+          <img 
+            src="/images/logo/logo-gpa-2024.png" 
+            alt="Green Product Award 2024" 
+            class="h-14 sm:h-16 w-auto object-contain"
+          />
+          <img 
+            src="/images/logo/logo-tidak-tipu-tipu.png" 
+            alt="Tidak Tipu-Tipu" 
+            class="h-14 sm:h-16 w-auto object-contain"
+          />
+        </div>
       </div>
     </div>
   </section>

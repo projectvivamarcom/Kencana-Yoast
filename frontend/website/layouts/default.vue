@@ -1,14 +1,16 @@
 <script setup lang="ts">
-import Header from '~/components/Header.vue'
+import { computed } from 'vue'
 import Navigation from '~/components/Navigation.vue'
 import Footer from '~/components/Footer.vue'
+
+const route = useRoute()
+const isHomePage = computed(() => route.path === '/')
 </script>
 
 <template>
-  <div class="min-h-screen flex flex-col bg-white text-slate-800 font-sans antialiased selection:bg-kencana-red selection:text-white">
-    <Header />
+  <div class="min-h-screen flex flex-col bg-white text-slate-800 font-sans antialiased selection:bg-red-600 selection:text-white">
     <Navigation />
-    <main class="flex-grow">
+    <main class="flex-grow" :class="{ 'pt-20 sm:pt-22': !isHomePage }">
       <slot />
     </main>
     <Footer />
