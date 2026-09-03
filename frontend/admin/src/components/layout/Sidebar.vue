@@ -13,9 +13,14 @@ import {
   BarChart2,
   Settings as SettingsIcon,
   ChevronDown,
-  ChevronRight
+  ChevronRight,
+  ShieldCheck,
+  UserCheck,
+  Feather,
+  Users
 } from 'lucide-vue-next'
 import { usePostStore } from '../../stores/postStore'
+import { useAuthStore } from '../../stores/authStore'
 
 defineProps<{
   isOpen: boolean
@@ -27,12 +32,23 @@ const emit = defineEmits<{
 
 const route = useRoute()
 const postStore = usePostStore()
+const authStore = useAuthStore()
 
 // State for expandable submenus
 const postsSubmenuOpen = ref(true)
 
 const isPostsActive = computed(() => {
   return route.path.startsWith('/posts')
+})
+
+const roleBadgeColor = computed(() => {
+  switch (authStore.role) {
+    case 'super_admin': return 'bg-purple-500/20 text-purple-300 border-purple-500/40'
+    case 'admin': return 'bg-blue-500/20 text-blue-300 border-blue-500/40'
+    case 'content_writer': return 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
+    case 'hr': return 'bg-amber-500/20 text-amber-300 border-amber-500/40'
+    default: return 'bg-gray-700/40 text-gray-300 border-gray-600'
+  }
 })
 </script>
 
@@ -44,8 +60,8 @@ const isPostsActive = computed(() => {
     <!-- Navigation List -->
     <nav class="py-2 overflow-y-auto flex-1">
       <ul class="space-y-0.5 text-[13px]">
-        <!-- 1. Dashboard -->
-        <li>
+        <!-- 1. Dashboard (All Roles) -->
+        <li v-if="authStore.hasPermission('dashboard.view')">
           <router-link
             to="/dashboard"
             @click="emit('close')"
@@ -64,8 +80,8 @@ const isPostsActive = computed(() => {
         <!-- Divider -->
         <li class="h-[1px] bg-[#2c3338] my-1 mx-2"></li>
 
-        <!-- 2. Posts (Parent with Submenu) -->
-        <li>
+        <!-- 2. Posts (Parent with Submenu - Content Writer & Super Admin) -->
+        <li v-if="authStore.hasPermission('articles.view')">
           <div
             @click="postsSubmenuOpen = !postsSubmenuOpen"
             class="flex items-center justify-between px-3 py-2 text-gray-300 hover:bg-wp-sidebarHover hover:text-[#72aee6] transition-colors cursor-pointer relative"
@@ -96,7 +112,7 @@ const isPostsActive = computed(() => {
                 All Posts
               </router-link>
             </li>
-            <li>
+            <li v-if="authStore.hasPermission('articles.create')">
               <router-link
                 to="/posts/new"
                 @click="emit('close')"
@@ -109,8 +125,8 @@ const isPostsActive = computed(() => {
           </ul>
         </li>
 
-        <!-- 3. Products -->
-        <li>
+        <!-- 3. Products (Admin & Super Admin) -->
+        <li v-if="authStore.hasPermission('products.view')">
           <router-link
             to="/products"
             @click="emit('close')"
@@ -128,8 +144,8 @@ const isPostsActive = computed(() => {
           </router-link>
         </li>
 
-        <!-- 4. Articles -->
-        <li>
+        <!-- 4. Articles (Content Writer & Super Admin) -->
+        <li v-if="authStore.hasPermission('articles.view')">
           <router-link
             to="/articles"
             @click="emit('close')"
@@ -147,8 +163,8 @@ const isPostsActive = computed(() => {
           </router-link>
         </li>
 
-        <!-- 5. Careers -->
-        <li>
+        <!-- 5. Careers (HR & Super Admin) -->
+        <li v-if="authStore.hasPermission('careers.view')">
           <router-link
             to="/careers"
             @click="emit('close')"
@@ -166,8 +182,8 @@ const isPostsActive = computed(() => {
           </router-link>
         </li>
 
-        <!-- 6. Media -->
-        <li>
+        <!-- 6. Media (Admin, Super Admin) -->
+        <li v-if="authStore.hasPermission('media.view')">
           <router-link
             to="/media"
             @click="emit('close')"
@@ -185,8 +201,8 @@ const isPostsActive = computed(() => {
           </router-link>
         </li>
 
-        <!-- 7. Categories -->
-        <li>
+        <!-- 7. Categories (Content Writer, Super Admin) -->
+        <li v-if="authStore.hasPermission('articles.view')">
           <router-link
             to="/categories"
             @click="emit('close')"
@@ -204,8 +220,8 @@ const isPostsActive = computed(() => {
           </router-link>
         </li>
 
-        <!-- 8. Tags -->
-        <li>
+        <!-- 8. Tags (Content Writer, Super Admin) -->
+        <li v-if="authStore.hasPermission('articles.view')">
           <router-link
             to="/tags"
             @click="emit('close')"
@@ -224,10 +240,10 @@ const isPostsActive = computed(() => {
         </li>
 
         <!-- Divider -->
-        <li class="h-[1px] bg-[#2c3338] my-1.5 mx-2"></li>
+        <li v-if="authStore.hasPermission('seo.analyze') || authStore.hasPermission('settings.view')" class="h-[1px] bg-[#2c3338] my-1.5 mx-2"></li>
 
-        <!-- 9. Kencana SEO -->
-        <li>
+        <!-- 9. Kencana SEO (Content Writer & Super Admin) -->
+        <li v-if="authStore.hasPermission('seo.analyze')">
           <router-link
             to="/seo-audit"
             @click="emit('close')"
@@ -245,8 +261,8 @@ const isPostsActive = computed(() => {
           </router-link>
         </li>
 
-        <!-- 10. Settings -->
-        <li>
+        <!-- 10. Settings (Admin & Super Admin) -->
+        <li v-if="authStore.hasPermission('settings.view')">
           <router-link
             to="/settings"
             @click="emit('close')"
@@ -266,16 +282,18 @@ const isPostsActive = computed(() => {
       </ul>
     </nav>
 
-    <!-- Sidebar Footer / Version Info -->
+    <!-- Sidebar Footer / Role Information -->
     <div class="p-3 bg-[#131619] border-t border-[#2c3338] text-[11px] text-gray-400">
-      <div class="flex items-center justify-between">
-        <span class="font-medium text-gray-200">Kencana SEO</span>
-        <span class="text-[#72aee6]">v2.4.1</span>
+      <div class="flex items-center justify-between mb-1.5">
+        <span class="text-[10px] text-gray-500 uppercase tracking-wider font-semibold">Active Role</span>
+        <span class="text-[10.5px] font-bold px-1.5 py-0.5 rounded border" :class="roleBadgeColor">
+          {{ authStore.user?.role_label || authStore.role || 'Super Admin' }}
+        </span>
       </div>
-      <div class="mt-1.5 text-[10px] text-gray-400 flex items-center space-x-1.5">
-        <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-        <span>SEO Engine</span>
-        <span class="text-emerald-400 font-medium">● Active</span>
+      <div class="text-[10px] text-gray-400 flex items-center space-x-1.5">
+        <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span>Sanctum RBAC</span>
+        <span class="text-emerald-400 font-medium">● Enforced</span>
       </div>
     </div>
   </aside>

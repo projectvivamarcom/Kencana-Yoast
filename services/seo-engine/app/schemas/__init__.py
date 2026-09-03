@@ -3,11 +3,11 @@ from pydantic import BaseModel
 
 
 class AnalyzeRequest(BaseModel):
-    title: str
-    slug: str
-    meta_description: str
-    focus_keyphrase: str
-    content: str
+    title: str = ""
+    slug: str = ""
+    meta_description: str = ""
+    focus_keyphrase: str = ""
+    content: str = ""
 
 
 class KeyphraseDensityDetails(BaseModel):

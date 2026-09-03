@@ -23,6 +23,7 @@ from app.analyzer.paragraph_length_analyzer import check_paragraph_length
 from app.analyzer.subheading_distribution_analyzer import (
     check_subheading_distribution,
 )
+from app.analyzer.consecutive_sentences_analyzer import check_consecutive_sentences
 
 
 def check_keyphrase_in_title(title: str, focus_keyphrase: str) -> AnalysisResultItem:
