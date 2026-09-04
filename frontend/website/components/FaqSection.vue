@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Plus, Minus } from 'lucide-vue-next'
 
-const openIndex = ref<number | null>(null)
+// Default open index is 0 as seen in live site Screenshot 3
+const openIndex = ref<number | null>(0)
 
 const toggle = (idx: number) => {
   openIndex.value = openIndex.value === idx ? null : idx
@@ -42,83 +42,66 @@ const faqs = [
     a: 'Ya, produk baja ringan KENCANA memiliki sertifikasi uji*'
   },
   {
-    q: 'Berapa standar minimal lapisan AZ yang dimilki oleh produk baja ringan KENCANA?',
+    q: 'Berapa standar minimal lapisan AZ yang dimiliki oleh produk baja ringan KENCANA?',
     a: 'Produk baja ringan KENCANA memiliki standar minimal AZ100'
   },
   {
     q: 'Apakah KENCANA menyediakan perhitungan rangka atap?',
     a: 'Ya, KENCANA menyediakan perhitungan rangka atap dengan software khusus, - Maxicad. Maxicad adalah software analisa struktur kuda-kuda yang diciptakan untuk profil baja ringan KENCANA pada rangka atap. Maxicad, telah direkomendasikan untuk rancang bangun atap yang presisi dan kokoh.'
+  },
+  {
+    q: 'Apa itu Maxicad?',
+    a: 'Maxicad adalah program khusus analisa struktur yang dirancang untuk kuda-kuda Baja Ringan KENCANA guna menjamin keamanan dan efisiensi struktur atap bangunan.'
   }
 ]
 </script>
 
 <template>
-  <section class="py-20 bg-white border-b border-slate-100" id="faqs">
+  <section class="py-16 sm:py-24 bg-white" id="faqs">
     <div class="max-w-[1300px] mx-auto px-6 sm:px-10 lg:px-16 space-y-12">
-      <!-- Section Header -->
-      <div class="space-y-2 text-center">
-        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+      <!-- Section Title (Screenshot 3) -->
+      <div class="space-y-1.5 text-left max-w-4xl mx-auto">
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-500 tracking-tight">
           FAQs
         </h2>
-        <p class="text-sm sm:text-base text-slate-600">
+        <p class="text-xs sm:text-sm text-slate-500 font-normal">
           Kami akan menjawab pertanyaan yang sering diajukan tentang KENCANA
         </p>
       </div>
 
-      <!-- Accordion List -->
-      <div class="max-w-4xl mx-auto divide-y divide-slate-200 border-y border-slate-200">
+      <!-- Accordion List: Individual Rounded Boxes (Screenshot 3) -->
+      <div class="max-w-4xl mx-auto space-y-3">
         <div 
           v-for="(faq, idx) in faqs" 
           :key="idx"
-          class="py-4 sm:py-5"
+          class="bg-white border border-slate-200/90 rounded-xl px-5 py-4 transition-all"
         >
           <button 
             type="button"
             @click="toggle(idx)"
-            class="w-full flex items-center justify-between text-left space-x-4 focus:outline-none group"
+            class="w-full flex items-center justify-between text-left focus:outline-none group cursor-pointer"
           >
-            <span class="text-sm sm:text-base font-bold text-slate-900 group-hover:text-red-600 transition-colors">
+            <span class="text-xs sm:text-[13.5px] font-semibold text-slate-800 group-hover:text-red-600 transition-colors">
               {{ faq.q }}
-            </span>
-            <span class="w-6 h-6 flex items-center justify-center shrink-0 text-slate-400 group-hover:text-red-600 transition-colors">
-              <Minus v-if="openIndex === idx" class="w-5 h-5 text-red-600" />
-              <Plus v-else class="w-5 h-5" />
             </span>
           </button>
 
           <div 
             v-show="openIndex === idx"
-            class="mt-3 text-xs sm:text-sm text-slate-600 leading-relaxed pr-8 animate-fadeIn"
+            class="mt-3 pt-2 text-xs sm:text-[13px] text-slate-600 leading-relaxed animate-fadeIn"
           >
             {{ faq.a }}
           </div>
         </div>
       </div>
 
-      <!-- Partner / Certification Badges Logo Bar (Section 19 & 20) -->
-      <div class="pt-12 space-y-8 text-center">
-        <!-- SNI dkk Banner -->
-        <div class="flex justify-center">
-          <img 
-            src="/images/general/sni-dkk.png" 
-            alt="Sertifikasi SNI Kencana" 
-            class="max-w-md sm:max-w-lg w-full h-auto object-contain"
-          />
-        </div>
-
-        <!-- Green Product Award & Tidak Tipu-Tipu -->
-        <div class="flex items-center justify-center space-x-8">
-          <img 
-            src="/images/logo/logo-gpa-2024.png" 
-            alt="Green Product Award 2024" 
-            class="h-14 sm:h-16 w-auto object-contain"
-          />
-          <img 
-            src="/images/logo/logo-tidak-tipu-tipu.png" 
-            alt="Tidak Tipu-Tipu" 
-            class="h-14 sm:h-16 w-auto object-contain"
-          />
-        </div>
+      <!-- Partner / Certification Banner (Screenshot 4) -->
+      <div class="pt-16 flex justify-center px-4">
+        <img 
+          src="/images/general/sni-dkk.png" 
+          alt="Sertifikasi SNI, KAN, MAXICAD Kencana" 
+          class="max-w-xl sm:max-w-2xl w-full h-auto object-contain"
+        />
       </div>
     </div>
   </section>

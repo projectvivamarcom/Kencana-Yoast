@@ -7,23 +7,30 @@ let timer: ReturnType<typeof setInterval> | null = null
 
 const slides = [
   {
-    image: '/images/banners/hero-slide1.png',
+    image: '/assets/img/hero-section-1.webp',
     title: 'Membangun Negeri dengan',
-    highlight: 'Produk KENCANA',
+    highlight: 'KENCANA',
     buttonText: 'Proyek Kami',
     buttonLink: '/about#proyek'
   },
   {
-    image: '/images/banners/hero-slide2.webp',
-    title: 'Membangun Negeri dengan',
-    highlight: 'Produk KENCANA',
+    image: '/assets/img/header-photo1-1.webp',
+    title: 'Solusi Baja Ringan Terbaik',
+    highlight: 'KENCANA',
     buttonText: 'Proyek Kami',
     buttonLink: '/about#proyek'
   },
   {
-    image: '/images/banners/hero-slide3.webp',
+    image: '/assets/img/header-photo2.webp',
     title: 'Membangun Negeri dengan',
-    highlight: 'Produk KENCANA',
+    highlight: 'KENCANA',
+    buttonText: 'Proyek Kami',
+    buttonLink: '/about#proyek'
+  },
+  {
+    image: '/assets/img/proyek-kanalum.webp',
+    title: 'Kualitas Kuat Teruji Sejak 1991',
+    highlight: 'KENCANA',
     buttonText: 'Proyek Kami',
     buttonLink: '/about#proyek'
   }
@@ -42,7 +49,7 @@ const setSlide = (idx: number) => {
 }
 
 onMounted(() => {
-  timer = setInterval(nextSlide, 4500)
+  timer = setInterval(nextSlide, 5000)
 })
 
 onUnmounted(() => {
@@ -51,7 +58,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="relative w-full h-[600px] sm:h-[700px] lg:h-[780px] overflow-hidden bg-slate-950 group select-none">
+  <div class="relative w-full h-[580px] sm:h-[660px] lg:h-[750px] overflow-hidden bg-slate-950 group select-none">
     <!-- Slides Container -->
     <div 
       v-for="(slide, idx) in slides" 
@@ -59,27 +66,27 @@ onUnmounted(() => {
       class="absolute inset-0 transition-opacity duration-1000 ease-in-out"
       :class="currentSlide === idx ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'"
     >
-      <!-- Background Image with Overlay -->
+      <!-- Background Image with Soft Contrast Overlay -->
       <div 
         class="absolute inset-0 bg-cover bg-center bg-no-repeat"
         :style="{ backgroundImage: `url(${slide.image})` }"
       ></div>
-      <div class="absolute inset-0 bg-black/40 mix-blend-multiply"></div>
+      <div class="absolute inset-0 bg-black/30"></div>
 
-      <!-- Slide Content Container (Padded for transparent overlap navbar) -->
-      <div class="relative z-20 max-w-[1300px] mx-auto h-full px-6 sm:px-10 lg:px-16 flex flex-col justify-center items-start pt-20 sm:pt-28">
-        <div class="max-w-3xl space-y-6">
-          <h1 class="text-3xl sm:text-5xl lg:text-6xl font-normal text-white tracking-tight leading-tight drop-shadow-xl" style="text-shadow: 0px 0px 14px rgba(0,0,0,0.4);">
+      <!-- Slide Content Container (Center Aligned as per live site) -->
+      <div class="relative z-20 max-w-[1300px] mx-auto h-full px-6 sm:px-10 lg:px-16 flex flex-col justify-center items-center text-center pt-16 sm:pt-20">
+        <div class="max-w-3xl space-y-6 flex flex-col items-center">
+          <h1 class="text-3xl sm:text-5xl lg:text-6xl font-normal text-white tracking-tight leading-tight" style="text-shadow: 0px 2px 12px rgba(0,0,0,0.5);">
             {{ slide.title }}
             <br />
-            Produk <strong class="font-extrabold text-white">{{ ' ' }}KENCANA</strong>
+            Produk <strong class="font-extrabold text-white">{{ slide.highlight }}</strong>
           </h1>
 
-          <div class="pt-3">
+          <div class="pt-2">
             <NuxtLink 
               :to="slide.buttonLink"
-              class="inline-block px-8 py-3.5 rounded-[5px] text-white font-bold text-sm sm:text-base tracking-wide shadow-xl transition-all duration-300 hover:!bg-white hover:!bg-none hover:!text-black"
-              style="background: linear-gradient(180deg, #FF3535 0%, #C60505 100%);"
+              class="inline-block px-7 sm:px-9 py-2.5 sm:py-3 rounded-[6px] text-white font-bold text-sm sm:text-base tracking-wide shadow-lg transition-all duration-300 hover:brightness-110 active:scale-95"
+              style="background: linear-gradient(180deg, #E62020 0%, #C80808 100%);"
             >
               {{ slide.buttonText }}
             </NuxtLink>
@@ -88,33 +95,33 @@ onUnmounted(() => {
       </div>
     </div>
 
-    <!-- Navigation Arrows -->
+    <!-- Navigation Arrows (Always visible on left and right edges) -->
     <button 
       type="button"
       @click="prevSlide"
-      class="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-white/20 hover:bg-white text-white hover:text-black flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 shadow-lg"
+      class="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-30 p-2 text-white/70 hover:text-white transition-colors"
       aria-label="Previous Slide"
     >
-      <ChevronLeft class="w-6 h-6" />
+      <ChevronLeft class="w-8 h-8 sm:w-10 sm:h-10 drop-shadow-md" />
     </button>
     <button 
       type="button"
       @click="nextSlide"
-      class="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-white/20 hover:bg-white text-white hover:text-black flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 shadow-lg"
+      class="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-30 p-2 text-white/70 hover:text-white transition-colors"
       aria-label="Next Slide"
     >
-      <ChevronRight class="w-6 h-6" />
+      <ChevronRight class="w-8 h-8 sm:w-10 sm:h-10 drop-shadow-md" />
     </button>
 
-    <!-- Pagination Bullets -->
-    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex items-center space-x-3">
+    <!-- Pagination Bullets (4 circular dots as per live site) -->
+    <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center space-x-2.5">
       <button 
         v-for="(_, idx) in slides" 
         :key="idx"
         type="button"
         @click="setSlide(idx)"
-        class="h-2.5 rounded-full transition-all duration-300"
-        :class="currentSlide === idx ? 'w-8 bg-white' : 'w-2.5 bg-white/50 hover:bg-white/80'"
+        class="rounded-full transition-all duration-300"
+        :class="currentSlide === idx ? 'w-3 h-3 bg-white shadow-sm ring-2 ring-white/50' : 'w-2.5 h-2.5 bg-white/50 hover:bg-white/80'"
         :aria-label="`Slide ${idx + 1}`"
       ></button>
     </div>

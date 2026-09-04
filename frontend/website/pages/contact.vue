@@ -31,11 +31,11 @@ useHead({
 <template>
   <div class="space-y-12 pb-20">
     <!-- Header Banner -->
-    <section class="bg-slate-900 text-white py-14">
+    <section class="bg-slate-900 text-white py-12 sm:py-16">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-3">
-        <span class="text-xs uppercase tracking-wider font-bold text-blue-400">Hubungi Kencana</span>
-        <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Konsultasi &amp; Layanan Pelanggan</h1>
-        <p class="text-sm text-slate-300 max-w-xl mx-auto">
+        <span class="text-xs uppercase tracking-wider font-bold text-red-400">Hubungi Kencana</span>
+        <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight">Konsultasi &amp; Layanan Pelanggan</h1>
+        <p class="text-sm sm:text-base text-slate-300 max-w-xl mx-auto">
           Tim spesialis kami siap membantu perencanaan struktur rangka atap dan penawaran material untuk proyek Anda.
         </p>
       </div>
@@ -43,15 +43,15 @@ useHead({
 
     <!-- Main Content: Form + Office Info -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10">
         <!-- Contact Information (Left) -->
         <div class="lg:col-span-5 space-y-6">
           <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
             <h2 class="text-lg font-bold text-slate-900">Kantor Pusat Kencana</h2>
             
-            <div class="space-y-4 text-xs text-slate-600">
+            <div class="space-y-4 text-xs sm:text-sm text-slate-600">
               <div class="flex items-start space-x-3">
-                <MapPin class="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
+                <MapPin class="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
                 <div>
                   <div class="font-bold text-slate-800">Alamat Pabrik &amp; Kantor:</div>
                   <p class="mt-0.5 leading-relaxed">
@@ -72,7 +72,7 @@ useHead({
                 <Mail class="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
                 <div>
                   <div class="font-bold text-slate-800">Email Resmi:</div>
-                  <p class="mt-0.5 font-mono">info@kencana.id / sales@kencana.id</p>
+                  <p class="mt-0.5 font-mono break-all">info@kencana.id / sales@kencana.id</p>
                 </div>
               </div>
 
@@ -96,12 +96,12 @@ useHead({
               <CheckCircle2 class="w-8 h-8 text-emerald-600 mx-auto" />
               <h3 class="text-sm font-bold text-emerald-800">Terima Kasih, Pesan Anda Telah Terkirim!</h3>
               <p class="text-xs text-emerald-700">Tim teknis/sales Kencana akan segera menghubungi nomor telepon Anda.</p>
-              <button @click="isSubmitted = false" class="text-xs text-blue-700 underline font-semibold mt-2 inline-block">
+              <button @click="isSubmitted = false" class="text-xs text-red-600 hover:text-red-700 underline font-semibold mt-2 inline-block">
                 Kirim pesan lain
               </button>
             </div>
 
-            <form v-else @submit.prevent="handleSubmit" class="space-y-4 text-xs">
+            <form v-else @submit.prevent="handleSubmit" class="space-y-4 text-xs sm:text-sm">
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div class="space-y-1">
                   <label class="font-semibold text-slate-700">Nama Lengkap *</label>
@@ -110,7 +110,7 @@ useHead({
                     v-model="form.name"
                     required
                     placeholder="Contoh: Bpk. Hendra" 
-                    class="w-full px-3 py-2 rounded-lg border border-slate-300 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
+                    class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 focus:outline-none focus:border-red-600 focus:ring-1 focus:ring-red-600 text-sm"
                   />
                 </div>
                 <div class="space-y-1">
@@ -120,7 +120,7 @@ useHead({
                     v-model="form.phone"
                     required
                     placeholder="0812-xxxx-xxxx" 
-                    class="w-full px-3 py-2 rounded-lg border border-slate-300 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
+                    class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 focus:outline-none focus:border-red-600 focus:ring-1 focus:ring-red-600 text-sm"
                   />
                 </div>
               </div>
@@ -132,14 +132,14 @@ useHead({
                     type="email" 
                     v-model="form.email"
                     placeholder="alamat@email.com" 
-                    class="w-full px-3 py-2 rounded-lg border border-slate-300 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
+                    class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 focus:outline-none focus:border-red-600 focus:ring-1 focus:ring-red-600 text-sm"
                   />
                 </div>
                 <div class="space-y-1">
                   <label class="font-semibold text-slate-700">Topik Konsultasi</label>
                   <select 
                     v-model="form.subject"
-                    class="w-full px-3 py-2 rounded-lg border border-slate-300 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 bg-white"
+                    class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 focus:outline-none focus:border-red-600 focus:ring-1 focus:ring-red-600 bg-white text-sm"
                   >
                     <option>Konsultasi Baja Ringan / Rangka Atap</option>
                     <option>Penawaran Proyek Genteng Metal</option>
@@ -156,13 +156,13 @@ useHead({
                   v-model="form.message"
                   rows="4" 
                   placeholder="Tuliskan estimasi luas atap, lokasi proyek, atau pertanyaan Anda..."
-                  class="w-full px-3 py-2 rounded-lg border border-slate-300 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
+                  class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 focus:outline-none focus:border-red-600 focus:ring-1 focus:ring-red-600 text-sm"
                 ></textarea>
               </div>
 
               <button 
                 type="submit" 
-                class="w-full py-3 bg-blue-700 hover:bg-blue-800 text-white font-bold text-xs rounded-xl shadow-sm flex items-center justify-center space-x-2 transition-all"
+                class="w-full min-h-[44px] py-3 bg-red-600 hover:bg-red-700 active:bg-red-800 text-white font-bold text-sm rounded-xl shadow-sm flex items-center justify-center space-x-2 transition-all"
               >
                 <Send class="w-4 h-4" />
                 <span>Kirim Formulir Konsultasi</span>

@@ -114,20 +114,20 @@ const searchResults = computed(() => {
         <NuxtLink to="/" class="flex items-center transition-transform hover:opacity-95">
           <img 
             v-if="isTransparent"
-            src="/images/logo/logo-kencana-white.webp" 
+            src="/assets/img/Logo-Kencana-Ahlinya-Baja-Ringan-putih.webp" 
             alt="Kencana Ahlinya Baja Ringan" 
             class="h-10 sm:h-12 w-auto object-contain transition-all duration-300"
           />
           <img 
             v-else
-            src="/images/logo/logo-kencana.webp" 
+            src="/assets/img/Logo-Kencana-Ahlinya-Baja-Ringan.webp" 
             alt="Kencana Ahlinya Baja Ringan" 
             class="h-10 sm:h-12 w-auto object-contain transition-all duration-300"
           />
         </NuxtLink>
 
-        <!-- Desktop Menu Links (Exact Order: Produk, Perusahaan, Katalog, Berita, Proyek, Kalkulator, Karir, Cabang, Kontak) -->
-        <nav class="hidden xl:flex items-center space-x-5 2xl:space-x-6 text-[14px] font-bold">
+        <!-- Desktop Menu Links (7 Menu Sesuai Situs Resmi: Produk, Perusahaan, Katalog, Berita, Proyek, Kalkulator, Karir) -->
+        <nav class="hidden lg:flex items-center space-x-6 xl:space-x-7 text-[15px] font-medium">
           <!-- Produk Mega Menu -->
           <div class="relative group" @mouseenter="activeDropdown = 'produk'" @mouseleave="activeDropdown = null">
             <button 
@@ -252,29 +252,9 @@ const searchResults = computed(() => {
           >
             Karir
           </NuxtLink>
-
-          <!-- Cabang Link -->
-          <NuxtLink 
-            to="/branches" 
-            class="py-2 transition-colors"
-            :class="isTransparent ? 'text-white hover:text-red-400' : 'text-slate-900 hover:text-kencana-red'"
-            active-class="!text-kencana-red"
-          >
-            Cabang
-          </NuxtLink>
-
-          <!-- Kontak Link -->
-          <NuxtLink 
-            to="/contact" 
-            class="py-2 transition-colors"
-            :class="isTransparent ? 'text-white hover:text-red-400' : 'text-slate-900 hover:text-kencana-red'"
-            active-class="!text-kencana-red"
-          >
-            Kontak
-          </NuxtLink>
         </nav>
 
-        <!-- Right Side: Search Icon, User Icon, & Kencana Store Button -->
+        <!-- Right Side: Search Icon & User Icon -->
         <div class="flex items-center space-x-2 sm:space-x-3">
           <!-- Search Icon Button -->
           <button 
@@ -291,30 +271,19 @@ const searchResults = computed(() => {
           <a 
             href="http://localhost:5173"
             target="_blank"
-            class="p-2 rounded-full transition-colors hidden sm:inline-flex"
+            class="p-2 rounded-full transition-colors"
             :class="isTransparent ? 'text-white hover:text-red-400 hover:bg-white/10' : 'text-slate-800 hover:text-kencana-red hover:bg-slate-100'"
-            title="Kencana CMS Portal"
-            aria-label="Login CMS"
+            title="Kencana Portal"
+            aria-label="Login User"
           >
             <User class="w-5 h-5" />
-          </a>
-
-          <!-- Kencana Store CTA -->
-          <a 
-            href="https://kencanaindonesia.co.id/kencana-store" 
-            target="_blank"
-            rel="noopener noreferrer"
-            class="hidden md:inline-flex items-center space-x-1.5 px-4 py-2 rounded-lg bg-kencana-red hover:bg-kencana-redDark text-white font-bold text-xs shadow-sm hover:shadow-md transition-all"
-          >
-            <span>KENCANA Store</span>
-            <ExternalLink class="w-3.5 h-3.5" />
           </a>
 
           <!-- Mobile Hamburger Menu Button -->
           <button 
             type="button"
             @click="isMobileMenuOpen = !isMobileMenuOpen"
-            class="p-2 xl:hidden focus:outline-none transition-colors"
+            class="p-2 lg:hidden focus:outline-none transition-colors"
             :class="isTransparent ? 'text-white hover:text-red-400' : 'text-slate-900 hover:text-kencana-red'"
             aria-label="Buka Menu"
           >

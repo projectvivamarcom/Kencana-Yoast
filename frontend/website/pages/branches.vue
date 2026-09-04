@@ -14,11 +14,11 @@ useHead({
 <template>
   <div class="space-y-12 pb-20">
     <!-- Header Banner -->
-    <section class="bg-slate-900 text-white py-14">
+    <section class="bg-slate-900 text-white py-12 sm:py-16">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-3">
-        <span class="text-xs uppercase tracking-wider font-bold text-blue-400">Jangkauan Nasional</span>
-        <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Cabang &amp; Jaringan Depo Kencana</h1>
-        <p class="text-sm text-slate-300 max-w-xl mx-auto">
+        <span class="text-xs uppercase tracking-wider font-bold text-red-400">Jangkauan Nasional</span>
+        <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight">Cabang &amp; Jaringan Depo Kencana</h1>
+        <p class="text-sm sm:text-base text-slate-300 max-w-xl mx-auto">
           Lebih dari 45 depo dan distributor siap memasok kebutuhan baja ringan dan genteng metal proyek Anda.
         </p>
       </div>
@@ -30,14 +30,14 @@ useHead({
         <div 
           v-for="branch in branches" 
           :key="branch.id"
-          class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm hover:shadow-lg transition-all space-y-4 flex flex-col justify-between"
+          class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm hover:shadow-lg transition-all space-y-4 flex flex-col justify-between"
         >
           <div class="space-y-3">
             <div class="flex items-center justify-between">
-              <span class="text-[10px] uppercase tracking-wider font-semibold px-2 py-0.5 rounded bg-blue-50 text-blue-700">
+              <span class="text-[10px] uppercase tracking-wider font-semibold px-2.5 py-0.5 rounded-full bg-red-50 text-red-700 border border-red-100">
                 {{ branch.type }}
               </span>
-              <Building2 class="w-4 h-4 text-blue-600" />
+              <Building2 class="w-4 h-4 text-red-600" />
             </div>
 
             <h3 class="text-base font-bold text-slate-900 leading-snug">
@@ -55,7 +55,7 @@ useHead({
               </div>
               <div class="flex items-center space-x-2">
                 <Mail class="w-4 h-4 text-amber-600 shrink-0" />
-                <span class="font-mono text-slate-500">{{ branch.email }}</span>
+                <span class="font-mono text-slate-500 break-all">{{ branch.email }}</span>
               </div>
             </div>
           </div>
@@ -63,14 +63,14 @@ useHead({
           <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
             <a 
               :href="`tel:${branch.phone.replace(/[^0-9]/g, '')}`"
-              class="text-xs font-semibold text-blue-700 hover:underline flex items-center space-x-1"
+              class="text-xs font-semibold text-red-600 hover:text-red-700 flex items-center space-x-1 py-1 px-2 rounded hover:bg-red-50 transition-colors"
             >
               <span>Hubungi Kantor</span>
             </a>
             <a 
               :href="`https://maps.google.com/?q=${encodeURIComponent(branch.address)}`" 
               target="_blank" 
-              class="text-xs text-slate-400 hover:text-blue-600 flex items-center space-x-1"
+              class="text-xs text-slate-400 hover:text-red-600 flex items-center space-x-1 py-1 px-2 rounded hover:bg-slate-50 transition-colors"
             >
               <span>Buka Peta</span>
               <ExternalLink class="w-3 h-3" />

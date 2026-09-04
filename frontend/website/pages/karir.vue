@@ -73,7 +73,7 @@ useSeoMeta({
   ogTitle: 'Lowongan Kerja PT Kencana Maju Bersama | Karir Kencana',
   ogDescription: 'Bergabung bersama PT Kencana Maju Bersama dan temukan peluang karir serta lowongan kerja terbaru di lingkungan kerja profesional.',
   ogUrl: 'https://kencanaindonesia.co.id/karir/',
-  ogImage: '/images/logo/logo-kencana.webp'
+  ogImage: '/assets/img/Logo-Kencana-Ahlinya-Baja-Ringan.webp'
 })
 </script>
 

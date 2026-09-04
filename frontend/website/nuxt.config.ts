@@ -12,7 +12,7 @@ export default defineNuxtConfig({
       title: 'Kencana Indonesia | Solusi Konstruksi Baja Ringan & Genteng Metal SNI',
       meta: [
         { charset: 'utf-8' },
-        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' },
         { 
           name: 'description', 
           content: 'Kencana adalah produsen terkemuka baja ringan, genteng metal, hollow plafon, dan spandek berstandar SNI di Indonesia. Kokoh, presisi, dan terpercaya.' 

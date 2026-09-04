@@ -34,7 +34,7 @@ useHead({
             'url': 'https://kencanaindonesia.co.id/',
             'logo': {
               '@type': 'ImageObject',
-              'url': 'https://kencanaindonesia.co.id/images/logo/logo-kencana.webp'
+              'url': 'https://kencanaindonesia.co.id/assets/img/Logo-Kencana-Ahlinya-Baja-Ringan.webp'
             },
             'contactPoint': {
               '@type': 'ContactPoint',
@@ -72,7 +72,7 @@ useSeoMeta({
   ogUrl: 'https://kencanaindonesia.co.id/',
   ogSiteName: 'Kencana Ahlinya Baja Ringan',
   ogLocale: 'id_ID',
-  ogImage: '/images/logo/logo-kencana.webp',
+  ogImage: '/assets/img/Logo-Kencana-Ahlinya-Baja-Ringan.webp',
   twitterCard: 'summary_large_image',
   twitterTitle: 'KENCANA Ahlinya Baja Ringan',
   twitterDescription: 'KENCANA adalah baja ringan berkualitas dari PT Kencana Maju Bersama. Terbuat dari bahan baku ber-SNI dan didistribusikan di seluruh Indonesia.'

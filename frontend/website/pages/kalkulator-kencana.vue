@@ -22,7 +22,7 @@ useSeoMeta({
   ogTitle: 'Kalkulator Baja Ringan KENCANA Membantu Menghemat Biaya',
   ogDescription: 'Hitung estimasi kebutuhan baja ringan dengan mudah menggunakan Kalkulator Baja Ringan KENCANA. Dengan estimasi jumlah material dan biaya.',
   ogUrl: 'https://kencanaindonesia.co.id/kalkulator-kencana',
-  ogImage: '/images/logo/logo-kencana.webp'
+  ogImage: '/assets/img/Logo-Kencana-Ahlinya-Baja-Ringan.webp'
 })
 </script>
 
