@@ -1,5 +1,46 @@
 <script setup lang="ts">
 // ShowcaseSection: Proyek Roll On Site (Video YT), Penghargaan Produk (5 Piala), & Apa Kata #SobatKENCANA
+
+interface TrophyItem {
+  id: number
+  image: string
+  title: string
+  subtitle?: string
+}
+
+// Data Penghargaan Produk (Text code agar mudah diedit)
+const trophies: TrophyItem[] = [
+  {
+    id: 1,
+    image: '/assets/img/piala-1.png',
+    title: 'Best Choice Brand',
+    subtitle: 'Light Steel Construction Systems'
+  },
+  {
+    id: 2,
+    image: '/assets/img/piala-2.png',
+    title: 'Anugrah Ekonomi Hijau Inovasi',
+    subtitle: 'Produk Baja Ringan Ramah Lingkungan'
+  },
+  {
+    id: 3,
+    image: '/assets/img/piala-3.png',
+    title: 'Perusahaan Peduli',
+    subtitle: 'Pembangunan Berkelanjutan'
+  },
+  {
+    id: 4,
+    image: '/assets/img/piala-4.png',
+    title: 'Outstanding Contribution in',
+    subtitle: 'Economic Growth'
+  },
+  {
+    id: 5,
+    image: '/assets/img/piala-5.png',
+    title: 'Best Choice',
+    subtitle: 'Building Material'
+  }
+]
 </script>
 
 <template>
@@ -58,26 +99,47 @@
       </div>
     </section>
 
-    <!-- 2. "Penghargaan produk KENCANA®" (5 Trophies Image Display) -->
+    <!-- 2. "Penghargaan produk KENCANA®" (5 Trophies Grid Display) -->
     <section class="py-16 sm:py-24 bg-white border-b border-slate-100">
-      <div class="max-w-[1300px] mx-auto px-6 sm:px-10 lg:px-16 space-y-8">
-        <!-- Title on top left -->
-        <div class="mb-8">
+      <div class="max-w-[1300px] mx-auto px-6 sm:px-10 lg:px-16 space-y-10 sm:space-y-12">
+        <!-- Title: "Penghargaan produk" + Logo KENCANA (gambar) -->
+        <div class="space-y-2">
           <h3 class="text-xl sm:text-2xl font-bold text-red-600">
             Penghargaan produk
           </h3>
-          <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black text-red-600 tracking-tight mt-1">
-            KENCANA<sup class="text-2xl sm:text-3xl font-bold">®</sup>
-          </h2>
+          <img
+            src="/assets/img/logokmb.png"
+            alt="KENCANA® Ahlinya Baja Ringan"
+            class="h-10 sm:h-12 lg:h-14 w-auto object-contain"
+          />
         </div>
 
-        <!-- 5 Trophies Image Display -->
-        <div class="w-full overflow-x-auto pb-4">
-          <img 
-            src="/assets/img/piala-landingpage-scaled.png" 
-            alt="Penghargaan Produk Kencana" 
-            class="w-full min-w-[780px] h-auto object-contain mx-auto"
-          />
+        <!-- 5 Trophies Grid: individual PNG per piala + teks di bawahnya -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6 sm:gap-8 items-start">
+          <div
+            v-for="trophy in trophies"
+            :key="trophy.id"
+            class="flex flex-col items-center text-center group"
+          >
+            <!-- Trophy Image -->
+            <div class="w-full h-52 sm:h-60 lg:h-72 flex items-center justify-center p-2 mb-4">
+              <img
+                :src="trophy.image"
+                :alt="trophy.title"
+                class="max-h-full max-w-full object-contain drop-shadow-sm transition-transform duration-300 group-hover:scale-105"
+                loading="lazy"
+              />
+            </div>
+            <!-- Text di bawah piala -->
+            <div class="w-full text-center space-y-1 px-2">
+              <h4 class="text-xs sm:text-sm font-bold text-slate-800 leading-snug">
+                {{ trophy.title }}
+              </h4>
+              <p v-if="trophy.subtitle" class="text-[11px] sm:text-xs text-slate-500 font-medium leading-snug">
+                {{ trophy.subtitle }}
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </section>

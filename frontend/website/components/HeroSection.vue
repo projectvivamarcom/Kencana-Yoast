@@ -58,7 +58,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="relative w-full h-[580px] sm:h-[660px] lg:h-[750px] overflow-hidden bg-slate-950 group select-none">
+  <div class="relative w-full h-[520px] sm:h-[580px] lg:h-[680px] overflow-hidden bg-slate-950 group select-none">
     <!-- Slides Container -->
     <div 
       v-for="(slide, idx) in slides" 
@@ -76,7 +76,7 @@ onUnmounted(() => {
       <!-- Slide Content Container (Center Aligned as per live site) -->
       <div class="relative z-20 max-w-[1300px] mx-auto h-full px-6 sm:px-10 lg:px-16 flex flex-col justify-center items-center text-center pt-16 sm:pt-20">
         <div class="max-w-3xl space-y-6 flex flex-col items-center">
-          <h1 class="text-3xl sm:text-5xl lg:text-6xl font-normal text-white tracking-tight leading-tight" style="text-shadow: 0px 2px 12px rgba(0,0,0,0.5);">
+          <h1 class="text-2xl sm:text-3xl lg:text-4xl font-normal text-white tracking-tight leading-tight" style="text-shadow: 0px 2px 12px rgba(0,0,0,0.5);">
             {{ slide.title }}
             <br />
             Produk <strong class="font-extrabold text-white">{{ slide.highlight }}</strong>
@@ -85,7 +85,7 @@ onUnmounted(() => {
           <div class="pt-2">
             <NuxtLink 
               :to="slide.buttonLink"
-              class="inline-block px-7 sm:px-9 py-2.5 sm:py-3 rounded-[6px] text-white font-bold text-sm sm:text-base tracking-wide shadow-lg transition-all duration-300 hover:brightness-110 active:scale-95"
+              class="inline-flex items-center justify-center min-h-[44px] px-7 sm:px-9 py-2.5 sm:py-3 rounded-[6px] text-white font-bold text-sm sm:text-base tracking-wide shadow-lg transition-all duration-300 hover:brightness-110 active:scale-95"
               style="background: linear-gradient(180deg, #E62020 0%, #C80808 100%);"
             >
               {{ slide.buttonText }}

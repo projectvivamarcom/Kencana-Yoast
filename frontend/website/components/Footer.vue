@@ -26,15 +26,8 @@ const subscribe = () => {
         <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 pb-10 border-b border-white/20">
           <!-- Logo & Mascot Left -->
           <div class="flex items-center space-x-3 sm:space-x-4">
-            <NuxtLink to="/">
-              <img 
-                src="/assets/img/Logo-Kencana-Ahlinya-Baja-Ringan-putih.webp" 
-                alt="KENCANA Ahlinya Baja Ringan" 
-                class="h-10 sm:h-12 w-auto object-contain"
-              />
-            </NuxtLink>
             <img 
-              src="/assets/img/Logo-Tidak-Tipu-Tipu.png" 
+              src="/assets/img/tpp.png" 
               alt="#tidak TIPU TIPU" 
               class="h-10 sm:h-12 w-auto object-contain"
             />
@@ -112,7 +105,7 @@ const subscribe = () => {
                   <Facebook class="w-4 h-4" />
                 </a>
                 <a 
-                  href="https://www.instagram.com/kencana.indonesia/" 
+                  href="https://www.instagram.com/kencana.bajaringan/?hl=en" 
                   target="_blank" 
                   class="w-8 h-8 rounded-full border border-white hover:bg-white hover:text-red-600 flex items-center justify-center transition-colors" 
                   aria-label="Instagram"
@@ -165,7 +158,7 @@ const subscribe = () => {
               <li>Belanja sekarang di</li>
             </ul>
 
-            <!-- Kencana Store House Outline Logo (Screenshot 4) -->
+            <!-- Kencana Store Logo -->
             <div class="pt-1">
               <a 
                 href="https://kencanaindonesia.co.id/kencana-store" 
@@ -173,14 +166,11 @@ const subscribe = () => {
                 rel="noopener noreferrer"
                 class="inline-block hover:opacity-90 transition-opacity"
               >
-                <div class="border-2 border-white rounded-t-2xl rounded-b-md px-4 py-2.5 text-center flex flex-col items-center justify-center">
-                  <svg class="w-6 h-6 text-white mb-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                    <polyline points="9 22 9 12 15 12 15 22"/>
-                  </svg>
-                  <span class="font-extrabold text-[11px] tracking-wider text-white leading-tight">KENCANA<sup class="text-[8px]">®</sup></span>
-                  <span class="font-bold text-[9px] tracking-widest text-white/95">STORE</span>
-                </div>
+                <img 
+                  src="/assets/img/Kencana-Store-1-1.png.webp" 
+                  alt="KENCANA STORE" 
+                  class="h-16 sm:h-20 w-auto object-contain"
+                />
               </a>
             </div>
           </div>
@@ -202,37 +192,40 @@ const subscribe = () => {
       </div>
     </div>
 
-    <!-- 3. Floating MiCan Widget (Exact match to live site) -->
-    <aside aria-label="Tanya MiCan" class="fixed bottom-6 right-6 z-50 flex flex-col items-end space-y-2 select-none">
+    <!-- 3. Floating MiCan Widget (Responsive for Mobile & Desktop) -->
+    <aside 
+      aria-label="Tanya MiCan"
+      class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex flex-col items-end space-y-1.5 sm:space-y-2 select-none"
+    >
       <!-- White Speech Bubble with Close Button -->
       <div 
-        v-if="!isMicanBubbleClosed" 
-        class="bg-white text-slate-800 text-xs sm:text-[13px] font-medium py-2 px-3.5 rounded-full shadow-xl border border-slate-200/80 flex items-center space-x-2 transition-all"
+        v-if="!isMicanBubbleClosed"
+        class="bg-white text-slate-800 text-[11px] sm:text-xs md:text-[13px] font-medium py-1.5 px-3 sm:py-2 sm:px-3.5 rounded-full shadow-xl border border-slate-200/80 flex items-center space-x-1.5 sm:space-x-2 transition-all max-w-[220px] sm:max-w-none"
       >
         <a 
           href="https://wa.me/6281131158000?text=Halo%20MiCan,%20saya%20ingin%20tanya%20produk%20baja%20ringan%20Kencana" 
           target="_blank" 
           rel="noopener noreferrer"
-          class="hover:text-red-600 transition-colors font-semibold"
+          class="hover:text-red-600 transition-colors font-semibold truncate"
         >
           Tanya MiCan!
         </a>
         <button 
           type="button" 
           @click="isMicanBubbleClosed = true" 
-          class="text-slate-400 hover:text-slate-700 ml-1 leading-none text-sm p-0.5 cursor-pointer"
+          class="text-slate-400 hover:text-slate-700 ml-1 leading-none text-sm p-0.5 cursor-pointer shrink-0"
           aria-label="Tutup bubble MiCan"
         >
           &times;
         </button>
       </div>
 
-      <!-- Circular Avatar MiCan -->
+      <!-- Circular Avatar MiCan (Proportional 44px on Mobile, 56px on Desktop) -->
       <a 
-        href="https://wa.me/6281131158000?text=Halo%20MiCan,%20saya%20ingin%20tanya%20produk%20baja%20ringan%20Kencana"
-        target="_blank"
+        href="https://wa.me/6281131158000?text=Halo%20MiCan,%20saya%20ingin%20tanya%20produk%20baja%20ringan%20Kencana" 
+        target="_blank" 
         rel="noopener noreferrer"
-        class="w-13 h-13 sm:w-14 sm:h-14 rounded-full overflow-hidden shadow-2xl border-2 border-white ring-1 ring-slate-200/60 hover:scale-105 transition-all duration-300 block bg-slate-900"
+        class="w-11 h-11 sm:w-13 sm:h-13 md:w-14 md:h-14 rounded-full overflow-hidden shadow-2xl border-2 border-white ring-1 ring-slate-200/60 hover:scale-105 transition-all duration-300 block bg-slate-900"
         title="Tanya MiCan via WhatsApp"
         aria-label="Tanya MiCan"
       >

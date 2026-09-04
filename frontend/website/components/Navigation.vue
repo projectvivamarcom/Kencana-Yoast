@@ -116,13 +116,13 @@ const searchResults = computed(() => {
             v-if="isTransparent"
             src="/assets/img/Logo-Kencana-Ahlinya-Baja-Ringan-putih.webp" 
             alt="Kencana Ahlinya Baja Ringan" 
-            class="h-10 sm:h-12 w-auto object-contain transition-all duration-300"
+            class="h-8 sm:h-10 lg:h-12 w-auto object-contain transition-all duration-300"
           />
           <img 
             v-else
             src="/assets/img/Logo-Kencana-Ahlinya-Baja-Ringan.webp" 
             alt="Kencana Ahlinya Baja Ringan" 
-            class="h-10 sm:h-12 w-auto object-contain transition-all duration-300"
+            class="h-8 sm:h-10 lg:h-12 w-auto object-contain transition-all duration-300"
           />
         </NuxtLink>
 
@@ -297,9 +297,9 @@ const searchResults = computed(() => {
     <!-- Mobile Drawer Menu -->
     <div 
       v-show="isMobileMenuOpen"
-      class="xl:hidden bg-white text-slate-900 border-t border-slate-100 px-6 py-5 space-y-4 shadow-2xl max-h-[85vh] overflow-y-auto animate-fadeIn"
+      class="lg:hidden bg-white text-slate-900 border-t border-slate-100 px-6 py-5 space-y-3 shadow-2xl max-h-[85vh] overflow-y-auto animate-fadeIn"
     >
-      <NuxtLink to="/" @click="isMobileMenuOpen = false" class="block py-2 text-sm font-bold text-slate-900 border-b border-slate-50">
+      <NuxtLink to="/" @click="isMobileMenuOpen = false" class="block py-2.5 text-sm font-bold text-slate-900 border-b border-slate-50 min-h-[44px] flex items-center">
         Beranda
       </NuxtLink>
 
@@ -308,7 +308,7 @@ const searchResults = computed(() => {
         <button 
           type="button"
           @click="toggleDropdown('mobile-produk')"
-          class="flex items-center justify-between w-full py-2 text-sm font-bold text-slate-900"
+          class="flex items-center justify-between w-full py-2.5 text-sm font-bold text-slate-900 min-h-[44px]"
         >
           <span>Produk</span>
           <ChevronDown class="w-4 h-4 transition-transform" :class="activeDropdown === 'mobile-produk' ? 'rotate-180' : ''" />
@@ -322,7 +322,7 @@ const searchResults = computed(() => {
                 :key="item.name" 
                 :to="item.href"
                 @click="isMobileMenuOpen = false"
-                class="block py-0.5 text-slate-600"
+                class="block py-1.5 text-slate-600 hover:text-kencana-red min-h-[36px] flex items-center"
               >
                 {{ item.name }}
               </NuxtLink>
@@ -336,7 +336,7 @@ const searchResults = computed(() => {
         <button 
           type="button"
           @click="toggleDropdown('mobile-perusahaan')"
-          class="flex items-center justify-between w-full py-2 text-sm font-bold text-slate-900"
+          class="flex items-center justify-between w-full py-2.5 text-sm font-bold text-slate-900 min-h-[44px]"
         >
           <span>Perusahaan</span>
           <ChevronDown class="w-4 h-4 transition-transform" :class="activeDropdown === 'mobile-perusahaan' ? 'rotate-180' : ''" />
@@ -347,32 +347,32 @@ const searchResults = computed(() => {
             :key="item.name" 
             :to="item.href"
             @click="isMobileMenuOpen = false"
-            class="block py-1 text-slate-600 hover:text-kencana-red"
+            class="block py-1.5 text-slate-600 hover:text-kencana-red min-h-[36px] flex items-center"
           >
             {{ item.name }}
           </NuxtLink>
         </div>
       </div>
 
-      <a href="https://shorturl.at/TcW29" target="_blank" class="block py-2 text-sm font-bold text-slate-900 border-b border-slate-50">
+      <a href="https://shorturl.at/TcW29" target="_blank" class="block py-2.5 text-sm font-bold text-slate-900 border-b border-slate-50 min-h-[44px] flex items-center">
         Katalog
       </a>
-      <NuxtLink to="/articles" @click="isMobileMenuOpen = false" class="block py-2 text-sm font-bold text-slate-900 border-b border-slate-50">
+      <NuxtLink to="/articles" @click="isMobileMenuOpen = false" class="block py-2.5 text-sm font-bold text-slate-900 border-b border-slate-50 min-h-[44px] flex items-center">
         Berita
       </NuxtLink>
-      <NuxtLink to="/about#proyek" @click="isMobileMenuOpen = false" class="block py-2 text-sm font-bold text-slate-900 border-b border-slate-50">
+      <NuxtLink to="/about#proyek" @click="isMobileMenuOpen = false" class="block py-2.5 text-sm font-bold text-slate-900 border-b border-slate-50 min-h-[44px] flex items-center">
         Proyek
       </NuxtLink>
-      <NuxtLink to="/kalkulator-kencana" @click="isMobileMenuOpen = false" class="block py-2 text-sm font-bold text-slate-900 border-b border-slate-50">
+      <NuxtLink to="/kalkulator-kencana" @click="isMobileMenuOpen = false" class="block py-2.5 text-sm font-bold text-slate-900 border-b border-slate-50 min-h-[44px] flex items-center">
         Kalkulator
       </NuxtLink>
-      <NuxtLink to="/karir" @click="isMobileMenuOpen = false" class="block py-2 text-sm font-bold text-slate-900 border-b border-slate-50">
+      <NuxtLink to="/karir" @click="isMobileMenuOpen = false" class="block py-2.5 text-sm font-bold text-slate-900 border-b border-slate-50 min-h-[44px] flex items-center">
         Karir
       </NuxtLink>
-      <NuxtLink to="/branches" @click="isMobileMenuOpen = false" class="block py-2 text-sm font-bold text-slate-900 border-b border-slate-50">
+      <NuxtLink to="/branches" @click="isMobileMenuOpen = false" class="block py-2.5 text-sm font-bold text-slate-900 border-b border-slate-50 min-h-[44px] flex items-center">
         Cabang
       </NuxtLink>
-      <NuxtLink to="/contact" @click="isMobileMenuOpen = false" class="block py-2 text-sm font-bold text-slate-900">
+      <NuxtLink to="/contact" @click="isMobileMenuOpen = false" class="block py-2.5 text-sm font-bold text-slate-900 min-h-[44px] flex items-center">
         Kontak
       </NuxtLink>
 
