@@ -4,7 +4,7 @@ import Navigation from '~/components/Navigation.vue'
 import Footer from '~/components/Footer.vue'
 
 const route = useRoute()
-const isOverlayPage = computed(() => route.path === '/' || route.path === '/perusahaan')
+const isOverlayPage = computed(() => route.path === '/')
 </script>
 
 <template>

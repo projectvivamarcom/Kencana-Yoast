@@ -77,7 +77,7 @@ const produkCategories = [
   }
 ]
 
-const isOverlayHero = computed(() => route.path === '/' || route.path === '/perusahaan')
+const isOverlayHero = computed(() => route.path === '/')
 const isTransparent = computed(() => isOverlayHero.value && !isScrolled.value && !isMobileMenuOpen.value)
 
 // Search Results Quick Data
