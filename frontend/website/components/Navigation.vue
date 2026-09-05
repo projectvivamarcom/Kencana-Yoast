@@ -27,10 +27,10 @@ const toggleDropdown = (name: string) => {
 }
 
 const perusahaanItems = [
-  { name: 'Profil Perusahaan', href: '/about' },
-  { name: 'Sejarah Singkat', href: '/about#sejarah' },
-  { name: 'Visi & Misi', href: '/about#visi-misi' },
-  { name: 'Keunggulan Produk', href: '/about#keunggulan' },
+  { name: 'Profil Perusahaan', href: '/perusahaan' },
+  { name: 'Sejarah Singkat', href: '/perusahaan#sejarah' },
+  { name: 'Visi & Misi', href: '/perusahaan#visi-misi' },
+  { name: 'Keunggulan Produk', href: '/perusahaan#keunggulan' },
   { name: 'CABANG Kencana', href: '/branches' },
   { name: 'Karir', href: '/karir' },
   { name: 'KENCANA Store', href: 'https://kencanaindonesia.co.id/kencana-store', external: true }
@@ -77,8 +77,8 @@ const produkCategories = [
   }
 ]
 
-const isHomePage = computed(() => route.path === '/')
-const isTransparent = computed(() => isHomePage.value && !isScrolled.value && !isMobileMenuOpen.value)
+const isOverlayHero = computed(() => route.path === '/' || route.path === '/perusahaan')
+const isTransparent = computed(() => isOverlayHero.value && !isScrolled.value && !isMobileMenuOpen.value)
 
 // Search Results Quick Data
 const searchableItems = [
@@ -170,13 +170,17 @@ const searchResults = computed(() => {
           <div class="relative group" @mouseenter="activeDropdown = 'perusahaan'" @mouseleave="activeDropdown = null">
             <button 
               type="button"
-              class="inline-flex items-center space-x-1 py-2 transition-colors"
-              :class="isTransparent ? 'text-white hover:text-red-400' : 'text-slate-900 hover:text-kencana-red'"
+              class="inline-flex items-center space-x-1 py-2 transition-colors font-medium"
+              :class="[
+                route.path.startsWith('/perusahaan')
+                  ? (isTransparent ? 'text-red-500 font-semibold' : 'text-kencana-red font-semibold')
+                  : (isTransparent ? 'text-white hover:text-red-400' : 'text-slate-900 hover:text-kencana-red')
+              ]"
             >
               <span>Perusahaan</span>
               <ChevronDown 
                 class="w-3.5 h-3.5 transition-transform group-hover:rotate-180" 
-                :class="isTransparent ? 'text-white/80' : 'text-slate-400'"
+                :class="route.path.startsWith('/perusahaan') ? (isTransparent ? 'text-red-500' : 'text-kencana-red') : (isTransparent ? 'text-white/80' : 'text-slate-400')"
               />
             </button>
 
