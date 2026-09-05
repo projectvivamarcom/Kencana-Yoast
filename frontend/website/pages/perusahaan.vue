@@ -105,7 +105,7 @@ const keunggulanPillars = [
 
     <!-- ========== HERO SECTION ========== -->
     <section class="relative bg-neutral-900 overflow-hidden">
-      <div class="relative w-full min-h-[440px] sm:min-h-[520px] lg:min-h-[580px] flex items-center">
+      <div class="relative w-full min-h-[540px] sm:min-h-[590px] lg:min-h-[580px] flex items-center">
         <!-- Hero Background Image -->
         <img
           src="/assets/img/Group-48096996.png"
@@ -219,75 +219,59 @@ const keunggulanPillars = [
     </section>
 
 
-   <!-- ========== VISI & MISI (PROFESSIONAL VERSION) ========== -->
-<section id="visi-misi" class="py-14 sm:py-20 bg-gray-50">
-  <div class="max-w-[1340px] mx-auto px-6 sm:px-10 lg:px-16">
+    <!-- ========== VISI & MISI (TWO ROUNDED CARDS) ========== -->
+    <section id="visi-misi" class="pt-4 pb-10 sm:pb-16 bg-white">
+      <div class="max-w-[1340px] mx-auto px-6 sm:px-10 lg:px-16">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
 
-    <!-- Section heading -->
-    <div class="text-center mb-10 sm:mb-14">
-      <span class="inline-block w-10 h-[3px] bg-red-600 mb-3"></span>
-      <h2 class="text-2xl sm:text-3xl lg:text-4xl font-semibold text-gray-900">
-        Visi &amp; Misi Perusahaan
-      </h2>
-      <p class="text-gray-500 text-sm sm:text-base mt-2">
-        Komitmen kami dalam membangun industri baja ringan Indonesia
-      </p>
-    </div>
+          <!-- Card 1: VISI -->
+          <div class="relative min-h-[360px] sm:min-h-[420px] lg:min-h-[460px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl flex flex-col justify-between p-6 sm:p-8 lg:p-10 group">
+            <img
+              src="/assets/img/header-photo1-1.webp"
+              alt="Visi PT Kencana Maju Bersama"
+              class="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+            />
+            <!-- Dark gradient at top & bottom for text readability -->
+            <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/80"></div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+            <div class="relative z-10">
+              <h3 class="text-3xl sm:text-4xl lg:text-5xl font-medium text-white tracking-normal drop-shadow-sm">
+                Visi
+              </h3>
+            </div>
 
-      <!-- Card 1: VISI -->
-      <div class="relative rounded-2xl overflow-hidden shadow-lg bg-white border border-gray-100 group">
-        <!-- Image area (fixed proportion, tidak full selayar) -->
-        <div class="relative h-52 sm:h-60 lg:h-64 overflow-hidden">
-          <img
-            src="/assets/img/visi.png"
-            alt="Visi PT Kencana Maju Bersama"
-            class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
-          />
-          <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-          <span class="absolute top-4 left-4 flex items-center gap-2 bg-red-600 text-white text-xs sm:text-sm font-semibold tracking-wide px-3 py-1.5 rounded-full">
-            VISI
-          </span>
-        </div>
+            <div class="relative z-10">
+              <p class="text-white text-sm sm:text-base lg:text-[17px] font-normal leading-relaxed drop-shadow-md max-w-sm">
+                Menjadi perusahaan distribusi bahan bangunan terbesar di Indonesia
+              </p>
+            </div>
+          </div>
 
-        <!-- Text area (di bawah, background putih, rapi) -->
-        <div class="p-6 sm:p-8">
-          <p class="text-gray-700 text-sm sm:text-base leading-relaxed">
-            Menjadi perusahaan distribusi bahan bangunan terbesar di Indonesia.
-          </p>
-        </div>
-      </div>
+          <!-- Card 2: MISI -->
+          <div class="relative min-h-[360px] sm:min-h-[420px] lg:min-h-[460px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl flex flex-col justify-start p-6 sm:p-8 lg:p-10 group">
+            <img
+              src="/assets/img/misi.png"
+              alt="Misi PT Kencana Maju Bersama"
+              class="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+            />
+            <!-- Dark overlay for list contrast -->
+            <div class="absolute inset-0 bg-black/45"></div>
 
-      <!-- Card 2: MISI -->
-      <div class="relative rounded-2xl overflow-hidden shadow-lg bg-white border border-gray-100 group">
-        <div class="relative h-52 sm:h-60 lg:h-64 overflow-hidden">
-          <img
-            src="/assets/img/misi.png"
-            alt="Misi PT Kencana Maju Bersama"
-            class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
-          />
-          <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-          <span class="absolute top-4 left-4 flex items-center gap-2 bg-red-600 text-white text-xs sm:text-sm font-semibold tracking-wide px-3 py-1.5 rounded-full">
-            MISI
-          </span>
-        </div>
+            <div class="relative z-10">
+              <h3 class="text-3xl sm:text-4xl lg:text-5xl font-medium text-white tracking-normal drop-shadow-sm mb-6 sm:mb-8">
+                Misi
+              </h3>
+              <ol class="space-y-3 sm:space-y-3.5 text-white text-xs sm:text-sm lg:text-[15px] font-normal leading-relaxed drop-shadow-md max-w-md">
+                <li v-for="(misi, i) in misiList" :key="i">
+                  {{ i + 1 }}. {{ misi }}
+                </li>
+              </ol>
+            </div>
+          </div>
 
-        <div class="p-6 sm:p-8">
-          <ol class="space-y-3 text-gray-700 text-sm sm:text-base leading-relaxed">
-            <li v-for="(misi, i) in misiList" :key="i" class="flex gap-3">
-              <span class="flex-shrink-0 w-6 h-6 rounded-full bg-red-50 text-red-600 text-xs font-semibold flex items-center justify-center mt-0.5">
-                {{ i + 1 }}
-              </span>
-              <span>{{ misi }}</span>
-            </li>
-          </ol>
         </div>
       </div>
-
-    </div>
-  </div>
-</section>
+    </section>
 
 
     <!-- ========== TRANSITION DIVIDER: WHITE TO RED (V-SHAPED WEDGE) ========== -->

@@ -4,7 +4,9 @@ import Navigation from '~/components/Navigation.vue'
 import Footer from '~/components/Footer.vue'
 
 const route = useRoute()
-const isOverlayPage = computed(() => route.path === '/')
+
+const overlayPages = ['/', '/perusahaan']
+const isOverlayPage = computed(() => overlayPages.includes(route.path))
 </script>
 
 <template>
